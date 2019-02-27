@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>User's Phone</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+  $(function () {
+    var socket = io();
+    $('form').submit(function(event){
+      event.preventDefault(); // prevents page reloading
+      socket.emit('chat message', $('#m').val());
+      $('#m').val('');
+      return false;
+    });
+  });
+</script>
+
+</head>
+<body>
+<h1>User's Phone</h1>
+<form action="">
+  <input id="m" autocomplete="off" /><button>Send</button>
+</form>
+</html>
