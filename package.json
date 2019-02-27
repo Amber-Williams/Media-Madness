@@ -1,0 +1,23 @@
+{
+  "name": "media-madness",
+  "version": "1.0.0",
+  "description": "A game for your friends",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Amber-Williams/Media-Madness.git"
+  },
+  "author": "Amber Williams",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Amber-Williams/Media-Madness/issues"
+  },
+  "homepage": "https://github.com/Amber-Williams/Media-Madness#readme"
+}
