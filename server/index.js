@@ -5,7 +5,6 @@ const port = 3000;
 
 io.on('connection', function(socket){
   socket.on('chat message', function(msg){
-    console.log(msg)
     io.emit('chat message content', msg);
   });
   socket.on('disconnect', function(){

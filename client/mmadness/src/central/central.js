@@ -14,7 +14,7 @@ export default class Central extends Component {
   
   render() {
     const message = this.props.messages
-      .map((message, key) =><li key={message.id}>{message}</li>)
+      .map((message, key) => <li key={message.id}>{message}</li>)
     
     return (
       <div className="centralApp">
