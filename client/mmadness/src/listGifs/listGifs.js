@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 
 export default class ListGifs extends Component {
-  
+
+  sendGif(selectedGif){
+    this.props.emitMessage(selectedGif);
+  }
+
   render() {
     const gifList = this.props.searchedGif.data;
     let gif;
 
     if (gifList) {
       gif = gifList.map((gif, key ) => 
-          <li key={gif.id}> <img src={gif.images.fixed_height.url}/> </li> 
+          <li key={gif.id}> <img src={gif.images.fixed_height.url} onClick={this.sendGif.bind(this, gif)}/> </li> 
        )
     }
   
@@ -27,5 +31,3 @@ export default class ListGifs extends Component {
     }
   }
 }
-
-//images.fixed_height.url

@@ -32,16 +32,19 @@ export default class User extends Component {
     return (
       <div>
         <h1>user is here</h1>
+        
+        {/*
+        Below for text submissions:
         <form action="">
           <input id="m" autoComplete="off" />
           <button onClick={this.saySomething.bind(this)}>test</button>
-        </form>
+        </form> */}
 
         Gif search bar:
         <form action="">
           <input id="searched" autoComplete="off" />
-          <button onClick={this.searchGif.bind(this)}>test</button>
-          < ListGifs searchedGif={this.state.searchedGif}/>
+          <button onClick={this.searchGif.bind(this)}>Search</button>
+          < ListGifs searchedGif={this.state.searchedGif} emitMessage={this.props.emitMessage}/>
         </form>
 
       </div>
