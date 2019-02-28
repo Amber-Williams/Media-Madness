@@ -3,8 +3,13 @@ import './App.css';
 import User from './user/user';
 import Central from './central/central';
 
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+
 import openSocket from 'socket.io-client';
 const socket = openSocket('http://localhost:3000');
+
+
+
 
 
 class App extends Component {
@@ -19,33 +24,34 @@ class App extends Component {
         messages: [...this.state.messages, msg]
       });
     })
-
   }
 
   emitMessage = (msg) => {
     socket.emit('chat message', msg);
   }
 
-  // $('form').submit(function(event){
-  //   event.preventDefault(); // prevents page reloading
-  //   socket.emit('chat message', $('#m').val());
-  //   $('#m').val('');
-
   render() {
 
     return (
+      <Router>
         <div>
-          App.js works
-          <User emitMessage={this.emitMessage}/>
-          <Central messages={this.state.messages}/>
+          <Link to='/central'>Central </Link>
+          <Link to='/user'>User</Link>
+
+          <Route 
+            path={'/central'}
+            render={ (props) => <Central {...props} messages={this.state.messages}/> }
+            />
+
+
+          <Route 
+            path={'/user'}
+            render={ (props) => <User {...props} emitMessage={this.emitMessage}/> }
+            />
         </div>
+      </Router>
     );
   }
 }
 
 export default App;
-
-//  need to figure out port thing /////////
-// react -> on user app button push -> emit "user message" with value
-// server -> on "user message" -> emit "user message"
-// react -> central on "user message" -> append "user message" with sent value

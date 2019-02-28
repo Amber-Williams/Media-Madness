@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
-import openSocket from 'socket.io-client';
-const socket = openSocket('http://localhost:3000');
 
 
 export default class User extends Component {
 
   saySomething(event){
-    let message = document.getElementById('m').value;
     event.preventDefault()
-    this.props.emitMessage( message);
-    message = '';
+    this.props.emitMessage( document.getElementById('m').value );
+    document.getElementById('m').value = '';
   }
 
   render() {
@@ -17,7 +14,7 @@ export default class User extends Component {
       <div>
         <h1>user is here</h1>
         <form action="">
-          <input id="m" autocomplete="off" />
+          <input id="m" autoComplete="off" />
           <button onClick={this.saySomething.bind(this)}>test</button>
         </form>
 

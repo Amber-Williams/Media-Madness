@@ -11,12 +11,11 @@ const filteredPickOne = questionData.blackCards
 const question = filteredPickOne[ Math.floor(Math.random() * Math.floor(filteredPickOne.length-1))]
 
 export default class Central extends Component {
-
+  
   render() {
-
     const message = this.props.messages
       .map((message, key) =><li key={message.id}>{message}</li>)
-      
+    
     return (
       <div className="centralApp">
         <h1> central is here</h1>
