@@ -8,11 +8,7 @@ const bodyParser = require('body-parser');
 const Play = require('./playSchema');
 const db = require('./db');
 
-const user = {
-  user: "test",
-  gif: "imgurl.com/0jsdfij",
-  round: 0
-}
+
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -23,7 +19,13 @@ app.get('/api/user', (req, res) => { //Delete this later
   res.send('Welcome')
 })
 
-function play(){
+function play(selectedGif){
+  const user = {
+    user: "test",
+    gif: selectedGif,
+    round: 0
+  }
+
   Play.collection.insertOne(user)
     .then((data)=>{
       resolve(data);
@@ -40,7 +42,7 @@ function empty(){
     }).catch((err)=>{
       reject(err);
     })
-return;
+  return;
 }
 
 io.on('connection', function(socket){
@@ -54,12 +56,12 @@ io.on('connection', function(socket){
   socket.on('chat message', function(msg){
     console.log(socket.id, "chat message sent")
     io.emit('chat message content', msg);
-    play() //Only adding one to the database?
+    play(msg.images.fixed_height.url)
   });
 
   socket.on('disconnect', function(){
     console.log(socket.id, 'user disconnected');
-    empty()
+    empty() // This will need to be changed to trash when all users leave room, not each one
   });
 });
 
