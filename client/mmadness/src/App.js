@@ -27,7 +27,6 @@ class App extends Component {
       this.setState({
         username: user
       });
-      
       localStorage.setItem('socketId', socketId) //will need to store these into per game room in a database table so person can rejoin room on disconnection
     })
   }

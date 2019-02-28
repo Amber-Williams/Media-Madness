@@ -1,10 +1,5 @@
 const mongoose = require('mongoose');
-const mongo_uri = 'mongodb://localhost/react-auth';
+const mongo_uri = 'mongodb://localhost/game_data';
 
-mongoose.connect(mongo_uri, function(err) {
-  if (err) {
-    throw err;
-  } else {
-    console.log(`Successfully connected to ${mongo_uri}`);
-  }
-});
+
+mongoose.connect(mongo_uri, { useNewUrlParser: true } );

@@ -15,7 +15,7 @@ export default class Login extends Component {
     this.props.emitUser(username);
   }
 
-  async onLogin(){
+  async onLogin(){ // Delete this later
     await fetch('http://localhost:3000/api/user')
     .then(res => res.json())
     .then(res => console.log(res))
