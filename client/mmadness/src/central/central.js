@@ -14,7 +14,12 @@ export default class Central extends Component {
   
   render() {
     const message = this.props.messages
-      .map((message, key) => <li key={message.id}> <img src={message.images.fixed_height.url}/> </li>)
+      .map((message, key) => 
+        <li key={message.id}> 
+          <h4>{this.props.user}</h4>
+          <img src={message.images.fixed_height.url}/> 
+        </li>
+      )
     
     return (
       <div className="centralApp">

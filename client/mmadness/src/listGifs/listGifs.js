@@ -12,7 +12,7 @@ export default class ListGifs extends Component {
 
     if (gifList) {
       gif = gifList.map((gif, key ) => 
-          <li key={gif.id}> <img src={gif.images.fixed_height.url} onClick={this.sendGif.bind(this, gif)}/> </li> 
+          <li key={key}> <img src={gif.images.fixed_height.url} onClick={this.sendGif.bind(this, gif)}/> </li> 
        )
     }
   

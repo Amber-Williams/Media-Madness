@@ -9,12 +9,12 @@ export default class User extends Component {
       searchedGif: []
     }
   }
-
-  saySomething(event){
-    event.preventDefault()
-    this.props.emitMessage( document.getElementById('m').value );
-    document.getElementById('m').value = '';
-  }
+  ///// Below for text submissions:
+  // saySomething(event){
+  //   event.preventDefault()
+  //   this.props.emitMessage( document.getElementById('m').value );
+  //   document.getElementById('m').value = '';
+  // }
 
   async searchGif(event){
     event.preventDefault();
@@ -25,7 +25,6 @@ export default class User extends Component {
     .then(data => this.setState ({
       searchedGif: data
     }));
-
   }
 
   render() {
@@ -51,8 +50,3 @@ export default class User extends Component {
     )
   }
 }
-
-
-// api.giphy.com/v1/gifs/search?api_key=rXTPJIC2ki2w3TA8aKiev8EkK8U1G3KT&q=test
-
-//images.fixed_height.url
