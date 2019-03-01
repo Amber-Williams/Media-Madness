@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ListGifs from './../listGifs/listGifs';
-import RoundQuestion from './../round-question/round-question';
 
 
 export default class User extends Component {
@@ -17,15 +16,16 @@ export default class User extends Component {
   //   document.getElementById('m').value = '';
   // }
 
-  async searchGif(event){
+  searchGif(event){
     event.preventDefault();
     let searched = document.getElementById('searched').value;
 
-    await fetch(`http://api.giphy.com/v1/gifs/search?api_key=rXTPJIC2ki2w3TA8aKiev8EkK8U1G3KT&q=${searched}`)
+  fetch(`http://api.giphy.com/v1/gifs/search?api_key=rXTPJIC2ki2w3TA8aKiev8EkK8U1G3KT&q=${searched}`)
     .then(response => response.json())
     .then(data => this.setState ({
       searchedGif: data
     }));
+  
   }
 
   clearSearch(){
@@ -37,7 +37,7 @@ export default class User extends Component {
   render() {
     return (
       <div>
-        <RoundQuestion/>
+        {this.props.question}
         <h1>user is here</h1>
         
         {/*

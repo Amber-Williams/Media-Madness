@@ -1,58 +1,64 @@
 const db = require('./../db');
 const Play = require('./../models/playSchema');
 const UserLog = require('./../models/userLogSchema');
+const questionData = require('./questions.json');
 
-const logUser = (username, socketId) => {
+const logUser = async (username, socketId) => {
   const user = {
     username,
     socketId,
   }
-
-  UserLog.collection.insertOne(user)
-    .then((data)=>{
-      resolve(data);
-    }).catch((err)=>{
-      reject(err);
-    })
-  return;
+  try {
+    await UserLog.collection.insertOne(user)
+  } catch(e) {
+    throw new Error(`An error occurred while creating a user: ${e}`);
+  }
 }
 
-const play = (user, gif) => {
+const play = async (user, gif) => {
   const play = {
     user,
     gif,
     round: 0
   }
 
-  Play.collection.insertOne(play)
-    .then((data)=>{
-      resolve(data);
-    }).catch((err)=>{
-      reject(err);
-    })
-  return;
+  try {
+    await Play.collection.insertOne(play)
+  } catch(e) {
+    throw new Error(`An error occurred while creating a play: ${e}`);
+  }
 }
 
 
-const empty = () => {
-  Play.collection.deleteMany({})
-    .then((data)=>{
-      resolve(data);
-    }).catch((err)=>{
-      reject(err);
-    })
+const empty = async () => {
+  try {
+    await Play.collection.deleteMany({})
+  } catch(e) {
+    throw new Error(`An error occurred while emptying play log: ${e}`);
+  }
 
-  UserLog.collection.deleteMany({})
-    .then((data)=>{
-      resolve(data);
-    }).catch((err)=>{
-      reject(err);
-    })
-  return;
+    try {
+      await UserLog.collection.deleteMany({})
+    } catch(e) {
+      throw new Error(`An error occurred while emptying user log: ${e}`);
+    }
+}
+
+const generateQuestion = () => {
+  const filteredPickOne = questionData.blackCards
+  .filter(quest => {
+    if(quest.pick === 1){
+      return quest;
+    }
+  });
+  const question = filteredPickOne[ Math.floor(Math.random() * Math.floor(filteredPickOne.length-1))];
+
+  return question.text;
 }
 
 module.exports = {
   logUser,
   play,
-  empty
+  empty,
+  generateQuestion
 }

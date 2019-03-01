@@ -11,11 +11,14 @@ app.use(cors());
 
 let userCount = 0;
 
+let question = methods.generateQuestion();
+
 io.on('connection', function(socket){
   userCount++;
   
   socket.on('login', function(user) {
-    io.emit('login user', user, socket.id);
+    console.log(question)
+    io.emit('login user', user, socket.id, question);
     methods.logUser(user, socket.id)
   })
 
@@ -23,6 +26,8 @@ io.on('connection', function(socket){
     io.emit('chat message content', msg);
     methods.play(user, msg.images.fixed_height.url)
   });
+
+  
 
   socket.on('disconnect', function(){
     userCount--;

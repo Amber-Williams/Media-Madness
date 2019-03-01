@@ -27,9 +27,7 @@ export default class ListGifs extends Component {
       )
     } else {
       return (
-        <div>
-          List empty
-        </div>
+        <div></div>
       )
     }
   }

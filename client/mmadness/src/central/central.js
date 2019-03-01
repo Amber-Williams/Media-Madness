@@ -11,23 +11,14 @@ export default class Central extends Component {
           <img src={message.images.fixed_height.url}/> 
         </li>
       )
-    if(this.props.question){
-      return (
-        <div className="centralApp">
-          <h1> central is here</h1>
-          {this.props.question}
-          {message}
-        </div>
-      )
-    } 
-    else {
-      return (
-        <div className="centralApp">
-          <h1> Users need to join: question not loaded</h1>
-          {/* need to add list of joined users here */}
-        </div>
-      )
-    }
+
+    return (
+      <div className="centralApp">
+        <h1> central is here</h1>
+        {this.props.question}
+        {message}
+      </div>
+    )
   }
 }
 
