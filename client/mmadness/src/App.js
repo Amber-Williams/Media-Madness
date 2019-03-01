@@ -32,7 +32,7 @@ class App extends Component {
   }
 
   emitMessage = (msg) => {
-    socket.emit('chat message', msg);
+    socket.emit('chat message', this.state.username, msg);
   }
 
   emitUser = (user) => {
