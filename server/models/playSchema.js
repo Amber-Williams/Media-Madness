@@ -7,5 +7,6 @@ const playSchema = mongoose.Schema({
     gif: String,
     round: Number
 });
+//Would like to implement time it took to select to create more robost scoring
 
 module.exports = mongoose.model('Play', playSchema);

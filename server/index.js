@@ -5,9 +5,9 @@ const port = 3000;
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
-const Play = require('./playSchema');
 const db = require('./db');
-
+const Play = require('./models/playSchema');
+const UserLog = require('./models/userLogSchema');
 
 
 app.use(bodyParser.json());
@@ -45,8 +45,10 @@ function empty(){
   return;
 }
 
-io.on('connection', function(socket){
+let userCount = 0;
 
+io.on('connection', function(socket){
+  userCount++;
   console.log(socket.id, 'connected');
   socket.on('login', function(user) {
     console.log(user, socket.id, 'login user sent')
@@ -60,8 +62,11 @@ io.on('connection', function(socket){
   });
 
   socket.on('disconnect', function(){
+    userCount--;
     console.log(socket.id, 'user disconnected');
-    empty() // This will need to be changed to trash when all users leave room, not each one
+    if(userCount === 0){
+      empty() // This will need to be changed to trash when all users leave room, not each one
+    }
   });
 });
 
