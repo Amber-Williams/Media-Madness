@@ -1,14 +1,5 @@
 import React, { Component } from 'react';
 import './central.css';
-import questionData from './../helpers/questions.json';
-
-const filteredPickOne = questionData.blackCards
-  .filter(quest => {
-    if(quest.pick === 1){
-      return quest;
-    }
-  });
-const question = filteredPickOne[ Math.floor(Math.random() * Math.floor(filteredPickOne.length-1))]
 
 export default class Central extends Component {
   
@@ -20,13 +11,23 @@ export default class Central extends Component {
           <img src={message.images.fixed_height.url}/> 
         </li>
       )
-    
-    return (
-      <div className="centralApp">
-        <h1> central is here</h1>
-        {question.text}
-        {message}
-      </div>
-    )
+    if(this.props.question){
+      return (
+        <div className="centralApp">
+          <h1> central is here</h1>
+          {this.props.question}
+          {message}
+        </div>
+      )
+    } 
+    else {
+      return (
+        <div className="centralApp">
+          <h1> Users need to join: question not loaded</h1>
+          {/* need to add list of joined users here */}
+        </div>
+      )
+    }
   }
 }
+

@@ -4,17 +4,10 @@ const io = require('socket.io')(server);
 const port = 3000;
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const methods = require('./helpers/helperFuncs');
 
 app.use(bodyParser.json());
 app.use(cors());
-
-const methods = require('./helpers/helperFuncs');
-
-// app.get('/api/user', (req, res) => { //Delete this later
-//   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3001');
-//   console.log(req.body)
-//   res.send('Welcome')
-// })
 
 let userCount = 0;
 
@@ -40,3 +33,4 @@ io.on('connection', function(socket){
 });
 
 server.listen(port);
+

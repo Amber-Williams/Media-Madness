@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ListGifs from './../listGifs/listGifs';
+import RoundQuestion from './../round-question/round-question';
 
 
 export default class User extends Component {
@@ -27,9 +28,16 @@ export default class User extends Component {
     }));
   }
 
+  clearSearch(){
+    this.setState({
+      searchedGif: []
+    })
+  }
+
   render() {
     return (
       <div>
+        <RoundQuestion/>
         <h1>user is here</h1>
         
         {/*
@@ -43,7 +51,11 @@ export default class User extends Component {
         <form action="">
           <input id="searched" autoComplete="off" />
           <button onClick={this.searchGif.bind(this)}>Search</button>
-          < ListGifs searchedGif={this.state.searchedGif} emitMessage={this.props.emitMessage}/>
+          < ListGifs 
+            searchedGif={this.state.searchedGif} 
+            emitMessage={this.props.emitMessage}
+            clearSearch={this.clearSearch.bind(this)}
+          />
         </form>
 
       </div>

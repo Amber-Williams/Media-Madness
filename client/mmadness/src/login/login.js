@@ -1,23 +1,15 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 
 export default class Login extends Component {
 
+  
   userLogged(event){
     event.preventDefault();
     let username = document.getElementById('userIs').value;
     this.props.emitUser(username);
-
-    ///// helppppp 
-    // fetch('mongodb://localhost/game_data/userlogs')
-    // .then(res => res.json())
-    // .then(res => console.log(res))
+    this.props.history.push('/user')
   }
-
-  // async onLogin(){ // Delete this later
-  //   await fetch('http://localhost:3000/api/user')
-  //   .then(res => res.json())
-  //   .then(res => console.log(res))
-  // }
 
   render() {
     return (

@@ -4,6 +4,7 @@ export default class ListGifs extends Component {
 
   sendGif(selectedGif){
     this.props.emitMessage(selectedGif);
+    this.props.clearSearch();
   }
 
   render() {
