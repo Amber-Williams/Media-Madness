@@ -6,7 +6,6 @@ export default class Central extends Component {
     stage: 1
   }
 
-
   render() {
     const message = this.props.messages
       .map((message, key) => 
@@ -26,7 +25,7 @@ export default class Central extends Component {
         )
     }
     // start screen with round question & players who have submitted // with next button
-    if (this.props.startGame === true && this.props.users.length > 0) {
+    if (this.props.startGame && this.props.users.length > 0 && !this.props.showSubmitted) {
       return (
         <div className="centralApp">
           <h1> 2. central is here </h1>
@@ -40,7 +39,7 @@ export default class Central extends Component {
       )
     } 
     // show submitted answers
-    else if (this.props.showSubmitted === true ) {
+    else if (this.props.showSubmitted) {
       return (
         <div className="centralApp">
           <h1> 3. central is here </h1>

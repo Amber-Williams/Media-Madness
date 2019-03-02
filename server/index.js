@@ -32,6 +32,10 @@ io.on('connection', function(socket){
     io.emit('game started');
   });
 
+  socket.on('submitted round', () => {
+    io.emit('submitted a round')
+  })
+
   //Task: socket show gifs in database -> Get all in database //vote?
   
 

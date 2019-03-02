@@ -25,7 +25,6 @@ class App extends Component {
       showSubmitted: false
     }
 
-
     socket.on('chat message content', (user, msg) => {
       this.setState({
         messages: [...this.state.messages, {username: user, message: msg}]
@@ -48,8 +47,13 @@ class App extends Component {
 
     socket.on('game started', () => {
       this.setState({
-        startGame: true,
-        showSubmitted: false
+        startGame: true
+      })
+    })
+
+    socket.on('submitted a round', () => {
+      this.setState({
+        showSubmitted: true
       })
     })
   }
@@ -59,10 +63,7 @@ class App extends Component {
   }
 
   showSubmittedFunc = () => {
-    this.setState({
-      startGame: false,
-      showSubmitted: true
-    })
+    socket.emit('submitted round')
   }
 
   emitMessage = (msg) => {
@@ -102,6 +103,8 @@ class App extends Component {
                 emitMessage={this.emitMessage}
                 question={this.state.question}
                 startGame={this.state.startGame}
+                showSubmitted={this.state.showSubmitted}
+                messages={this.state.messages}
                 /> }
               />
           </div>
