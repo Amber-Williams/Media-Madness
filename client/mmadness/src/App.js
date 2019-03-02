@@ -24,28 +24,28 @@ class App extends Component {
     }
 
 
-    socket.on('chat message content', (msg) => {
+    socket.on('chat message content', (user, msg) => {
       this.setState({
-        messages: [...this.state.messages, msg]
+        messages: [...this.state.messages, {username: user, message: msg}]
       });
     })
   
-    socket.on('login user', (user, socketId, question, users) => {
+    socket.on('global users', (question, users) => {
+      
       this.setState({
-        username: user,
         question,
         users
       });
-      localStorage.setItem('socketId', socketId) //will need to store these into per game room in a database table so person can rejoin room on disconnection
-      console.log('works', this.state.users)
     })
-
+    
+    socket.on('personal login user', (id, user) => {
+      this.setState({
+        username: user
+      });
+      localStorage.setItem('socketId', id) //will need to store these into per game room in a database table so person can rejoin room on disconnection
+    })
   }
   
-  componentDidMount () {
-
-
-  }
 
   emitMessage = (msg) => {
     socket.emit('chat message', this.state.username, msg);
@@ -60,13 +60,16 @@ class App extends Component {
       return (
         <Router>
           <div>
+          Hello: {this.state.username}
+          <br/>
+          <br/>
+          <br/>
             <Link to='/central'>Central </Link>
             <Link to='/user'>User</Link>
             <Route 
               path={'/central'}
               render={ (props) => <Central {...props} 
-                messages={this.state.messages} 
-                user={this.state.username}
+                messages={this.state.messages}
                 question={this.state.question}
                 users={this.state.users}
                 /> }

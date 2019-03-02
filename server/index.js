@@ -18,14 +18,17 @@ io.on('connection', function(socket){
   
   socket.on('login', async function(user) {
     methods.logUser(user, socket.id)
-    io.emit('login user', user, socket.id, question, await methods.loggedUsers());
+    io.emit('global users', question, await methods.loggedUsers());
+
+    io.sockets.connected[socket.id].emit('personal login user', socket.id, user);
   })
 
   socket.on('chat message', function(user, msg){
-    io.emit('chat message content', msg);
+    io.emit('chat message content', user, msg);
     methods.play(user, msg.images.fixed_height.url)
   });
 
+  //Task:socket show gifs in database -> Get all in database //vote?
   
 
   socket.on('disconnect', function(){
