@@ -56,6 +56,7 @@ class App extends Component {
         showSubmitted: true
       })
     })
+
   }
   
   startGameFunc = () => {
@@ -72,6 +73,10 @@ class App extends Component {
 
   emitUser = (user) => {
     socket.emit('login', user);
+  }
+
+  voteMessage = (user, msg, voter) => {
+    socket.emit('user voted', user, msg, voter)
   }
 
   render() {
@@ -105,6 +110,8 @@ class App extends Component {
                 startGame={this.state.startGame}
                 showSubmitted={this.state.showSubmitted}
                 messages={this.state.messages}
+                vote={this.voteMessage}
+                username={this.state.username}
                 /> }
               />
           </div>

@@ -15,7 +15,7 @@ export default class User extends Component {
   handleGif = (selectedGif) => {
     this.clearSearch()
     this.setState({
-      submittedGif: <img alt={selectedGif.title} src={selectedGif.images.fixed_height.url}/>,
+      submittedGif: <img alt={selectedGif.title} src={selectedGif.images.fixed_height.url} />,
       summitButton: <button onClick={(event) => {this.submitGif(selectedGif, event)}}>Submit</button>
     })
   }
@@ -51,11 +51,10 @@ export default class User extends Component {
   
   
   render() {
-    console.log(this.props.messages)
     const message = this.props.messages
     .map((message, key) => 
       <li key={key}>
-        <img alt={message.message.title} src={message.message.images.fixed_height_still.url}/> 
+        <img alt={message.message.title}  src={message.message.images.fixed_height_still.url}  onClick={()=> {this.props.vote(message.username, message.message.images.fixed_height.url, this.props.username)}}/> 
       </li>
     )
 

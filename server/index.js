@@ -36,8 +36,9 @@ io.on('connection', function(socket){
     io.emit('submitted a round')
   })
 
-  //Task: socket show gifs in database -> Get all in database //vote?
-  
+  socket.on('user voted', (owner, play, voter) =>{
+    methods.playVote(owner, play, voter);
+  })  
 
   socket.on('disconnect', function(){
     userCount--;

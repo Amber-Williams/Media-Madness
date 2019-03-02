@@ -28,7 +28,8 @@ const play = async (user, gif) => {
   const play = {
     user,
     gif,
-    round: 0
+    round: 0,
+    votes: []
   }
 
   try {
@@ -65,10 +66,19 @@ const generateQuestion = () => {
   return question.text;
 }
 
+const playVote = async (owner, play, voter) => {
+  try {
+    await Play.collection.findOneAndUpdate({'gif': play, 'user': owner}, {"$push": {'votes': voter}})
+  } catch(e) {
+    throw new Error(`An error occurred while creating a play vote: ${e}`);
+  }
+}
+
 module.exports = {
   logUser,
   play,
   empty,
   generateQuestion,
-  loggedUsers
+  loggedUsers,
+  playVote
 }
