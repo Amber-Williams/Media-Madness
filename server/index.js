@@ -16,10 +16,9 @@ let question = methods.generateQuestion();
 io.on('connection', function(socket){
   userCount++;
   
-  socket.on('login', function(user) {
-    console.log(question)
-    io.emit('login user', user, socket.id, question);
+  socket.on('login', async function(user) {
     methods.logUser(user, socket.id)
+    io.emit('login user', user, socket.id, question, await methods.loggedUsers());
   })
 
   socket.on('chat message', function(user, msg){

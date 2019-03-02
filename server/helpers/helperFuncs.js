@@ -15,6 +15,15 @@ const logUser = async (username, socketId) => {
   }
 }
 
+const loggedUsers = async () => {
+  try {
+    const userLog = await UserLog.collection.find({}).toArray();
+    return userLog;
+  } catch(e) {
+    throw new Error(`An error occurred while creating a user: ${e}`);
+  }
+}
+
 const play = async (user, gif) => {
   const play = {
     user,
@@ -60,5 +69,6 @@ module.exports = {
   logUser,
   play,
   empty,
-  generateQuestion
+  generateQuestion,
+  loggedUsers
 }

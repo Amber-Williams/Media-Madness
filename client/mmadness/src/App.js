@@ -8,7 +8,6 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 import methods from './helpers/helperFuncs';
 
-
 import openSocket from 'socket.io-client';
 const socket = openSocket('http://localhost:3000');
 
@@ -20,22 +19,32 @@ class App extends Component {
       messages: [],
       username: '',
       methods,
-      question: ''
+      question: '',
+      users: [] 
     }
+
 
     socket.on('chat message content', (msg) => {
       this.setState({
         messages: [...this.state.messages, msg]
       });
     })
-
-    socket.on('login user', (user, socketId, question) =>{
+  
+    socket.on('login user', (user, socketId, question, users) => {
       this.setState({
         username: user,
-        question
+        question,
+        users
       });
       localStorage.setItem('socketId', socketId) //will need to store these into per game room in a database table so person can rejoin room on disconnection
+      console.log('works', this.state.users)
     })
+
+  }
+  
+  componentDidMount () {
+
+
   }
 
   emitMessage = (msg) => {
@@ -59,6 +68,7 @@ class App extends Component {
                 messages={this.state.messages} 
                 user={this.state.username}
                 question={this.state.question}
+                users={this.state.users}
                 /> }
               />
             <Route 
@@ -78,14 +88,14 @@ class App extends Component {
         <Router>
           <div>
             <Link to='/central'>Central </Link>
-            <Link to='/'>Login</Link>
+            <Link to='/user'>Login</Link>
             <Route 
-              path='/'
+              path='/user'
               render={ (props) => <Login {...props} emitUser={this.emitUser} user={this.state.username} /> }
               />
             <Route 
               path={'/central'}
-              render={ (props) => <Central {...props} messages={this.state.messages} user={this.state.username}/> }
+              render={ (props) => <Central {...props} messages={this.state.messages} user={this.state.username} users={this.state.users}/> }
               />
           </div>
         </Router>
