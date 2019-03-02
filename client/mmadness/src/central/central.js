@@ -1,35 +1,18 @@
 import React, { Component } from 'react';
 import './central.css';
 
-import openSocket from 'socket.io-client';
-const socket = openSocket('http://localhost:3000');
-
 export default class Central extends Component {
-  // state = {
-  //   //startGame: false,
-  //   showSubmitted: false,
-  // } 
+  state ={
+    stage: 1
+  }
 
-  // startGame = () => {
-  //   this.setState({
-  //     startGame: true,
-  //     showSubmitted: false
-  //   })
-  // }
-
-  // showSubmitted = () => {
-  //   this.setState({
-  //     //startGame: false,
-  //     showSubmitted: true
-  //   })
-  // }
 
   render() {
     const message = this.props.messages
       .map((message, key) => 
         <li key={key}> 
           <h4>{message.username}</h4>
-          <img src={message.message.images.fixed_height.url}/> 
+          <img alt={message.message.title} src={message.message.images.fixed_height.url}/> 
         </li>
       )
 
@@ -86,7 +69,8 @@ export default class Central extends Component {
   }
 }
 
-//Break up screens into routes?
+//Break up screens into strages
+  //if this stage render that component
 
 
 

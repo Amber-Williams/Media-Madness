@@ -15,7 +15,7 @@ let question = methods.generateQuestion();
 
 io.on('connection', function(socket){
   userCount++;
-  
+  //io.of('/namespace').on('connect', (user))=>{function here}
   socket.on('login', async function(user) {
     methods.logUser(user, socket.id)
     io.emit('global users', question, await methods.loggedUsers());
@@ -32,7 +32,7 @@ io.on('connection', function(socket){
     io.emit('game started');
   });
 
-  //Task:socket show gifs in database -> Get all in database //vote?
+  //Task: socket show gifs in database -> Get all in database //vote?
   
 
   socket.on('disconnect', function(){
