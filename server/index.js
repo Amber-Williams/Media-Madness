@@ -28,6 +28,10 @@ io.on('connection', function(socket){
     methods.play(user, msg.images.fixed_height.url)
   });
 
+  socket.on('start game', function(){
+    io.emit('game started');
+  });
+
   //Task:socket show gifs in database -> Get all in database //vote?
   
 

@@ -5,24 +5,24 @@ import openSocket from 'socket.io-client';
 const socket = openSocket('http://localhost:3000');
 
 export default class Central extends Component {
-  state = {
-    startGame: false,
-    showSubmitted: false,
-  } 
+  // state = {
+  //   //startGame: false,
+  //   showSubmitted: false,
+  // } 
 
-  startGame = () => {
-    this.setState({
-      startGame: true,
-      showSubmitted: false
-    })
-  }
+  // startGame = () => {
+  //   this.setState({
+  //     startGame: true,
+  //     showSubmitted: false
+  //   })
+  // }
 
-  showSubmitted = () => {
-    this.setState({
-      startGame: false,
-      showSubmitted: true
-    })
-  }
+  // showSubmitted = () => {
+  //   this.setState({
+  //     //startGame: false,
+  //     showSubmitted: true
+  //   })
+  // }
 
   render() {
     const message = this.props.messages
@@ -43,7 +43,7 @@ export default class Central extends Component {
         )
     }
     // start screen with round question & players who have submitted // with next button
-    if (this.state.startGame === true && this.props.users.length > 0) {
+    if (this.props.startGame === true && this.props.users.length > 0) {
       return (
         <div className="centralApp">
           <h1> 2. central is here </h1>
@@ -52,12 +52,12 @@ export default class Central extends Component {
           <ul>
             {users}
           </ul>
-          <button onClick={this.showSubmitted}>Show Submitted</button>
+          <button onClick={this.props.showSubmittedFunc}>Show Submitted</button>
         </div>
       )
     } 
     // show submitted answers
-    else if (this.state.showSubmitted === true ) {
+    else if (this.props.showSubmitted === true ) {
       return (
         <div className="centralApp">
           <h1> 3. central is here </h1>
@@ -78,10 +78,11 @@ export default class Central extends Component {
           <ul>
             {users}
           </ul>
-          <button onClick={this.startGame}>Start Game</button>
+          <button onClick={this.props.startGameFunc}>Start Game</button>
         </div>
       )
     }
+    //Need scores screen with start new game button
   }
 }
 

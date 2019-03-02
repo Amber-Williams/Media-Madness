@@ -20,7 +20,9 @@ class App extends Component {
       username: '',
       methods,
       question: '',
-      users: [] 
+      users: [],
+      startGame: false,
+      showSubmitted: false
     }
 
 
@@ -31,7 +33,6 @@ class App extends Component {
     })
   
     socket.on('global users', (question, users) => {
-      
       this.setState({
         question,
         users
@@ -44,8 +45,25 @@ class App extends Component {
       });
       localStorage.setItem('socketId', id) //will need to store these into per game room in a database table so person can rejoin room on disconnection
     })
+
+    socket.on('game started', () => {
+      this.setState({
+        startGame: true,
+        showSubmitted: false
+      })
+    })
   }
   
+  startGameFunc = () => {
+    socket.emit('start game');
+  }
+
+  showSubmittedFunc = () => {
+    this.setState({
+      startGame: false,
+      showSubmitted: true
+    })
+  }
 
   emitMessage = (msg) => {
     socket.emit('chat message', this.state.username, msg);
@@ -72,6 +90,10 @@ class App extends Component {
                 messages={this.state.messages}
                 question={this.state.question}
                 users={this.state.users}
+                startGameFunc={this.startGameFunc}
+                startGame={this.state.startGame}
+                showSubmittedFunc={this.showSubmittedFunc}
+                showSubmitted={this.state.showSubmitted}
                 /> }
               />
             <Route 
@@ -79,6 +101,7 @@ class App extends Component {
               render={ (props) => <User {...props} 
                 emitMessage={this.emitMessage}
                 question={this.state.question}
+                startGame={this.state.startGame}
                 /> }
               />
           </div>

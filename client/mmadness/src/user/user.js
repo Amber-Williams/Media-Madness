@@ -35,30 +35,37 @@ export default class User extends Component {
   }
 
   render() {
-    return (
-      <div>
-        {this.props.question}
-        <h1>user is here</h1>
-        
-        {/*
-        Below for text submissions:
-        <form action="">
-          <input id="m" autoComplete="off" />
-          <button onClick={this.saySomething.bind(this)}>test</button>
-        </form> */}
-
-        Gif search bar:
-        <form action="">
-          <input id="searched" autoComplete="off" />
-          <button onClick={this.searchGif.bind(this)}>Search</button>
-          < ListGifs 
-            searchedGif={this.state.searchedGif} 
-            emitMessage={this.props.emitMessage}
-            clearSearch={this.clearSearch.bind(this)}
-          />
-        </form>
-
-      </div>
-    )
+    if (this.props.startGame) {
+      return (
+        <div>
+          {this.props.question}
+          <h1>user is here</h1>
+          
+          {/*
+          Below for text submissions:
+          <form action="">
+            <input id="m" autoComplete="off" />
+            <button onClick={this.saySomething.bind(this)}>test</button>
+          </form> */}
+  
+          Gif search bar:
+          <form action="">
+            <input id="searched" autoComplete="off" />
+            <button onClick={this.searchGif.bind(this)}>Search</button>
+            < ListGifs 
+              searchedGif={this.state.searchedGif} 
+              emitMessage={this.props.emitMessage}
+              clearSearch={this.clearSearch.bind(this)}
+            />
+          </form>
+  
+        </div>
+      )
+    } else {
+      return (
+        <h1>Waiting for game to be started</h1>
+      )
+    }
+    
   }
 }
