@@ -48,13 +48,19 @@ export default class User extends Component {
     })
   }
 
+  test(){
+    this.setState({
+      waiting: true
+    })
+  }
+
   
   
   render() {
     const message = this.props.messages
     .map((message, key) => 
       <li key={key}>
-        <img alt={message.message.title}  src={message.message.images.fixed_height_still.url}  onClick={()=> {this.props.vote(message.username, message.message.images.fixed_height.url, this.props.username)}}/> 
+        <img alt={message.message.title}  src={message.message.images.fixed_height_still.url}  onClick={()=> {this.props.vote(message.username, message.message.images.fixed_height.url, this.props.username); this.test()}}/> 
       </li>
     )
 
@@ -78,15 +84,6 @@ export default class User extends Component {
         </div>
       )
     } 
-    // 4. waiting for other players... (on central submission)
-    else if (this.state.waiting && !this.props.showSubmitted){
-      return (
-        <div>
-          <h1>user is here</h1>
-          <h4>Waiting for other players to submit</h4>
-        </div>
-      )
-    }
     // 1. waiting for game to be started
     else if (!this.props.startGame){
       return (
@@ -96,7 +93,24 @@ export default class User extends Component {
         </div>
       )
     }
-
+    // 4. waiting for other players... (on central submission)
+    else if (this.state.waiting && !this.props.showSubmitted){
+      return (
+        <div>
+          <h1>user is here</h1>
+          <h4>Waiting for other players to submit</h4>
+        </div>
+      )
+    } 
+    // 6. waiting for other players votes (on vote submission)
+    else if (this.state.waiting) {
+      return (
+        <div>
+          <h1>user is here</h1>
+          <h4>Waiting for other players to submit votes</h4>
+        </div>
+      )
+    }
     // 5. show all gifs ( info sent by socket ) ability to vote (send back to socket-> socket updates database play)
     else {
       return (
@@ -115,7 +129,7 @@ export default class User extends Component {
 
   
 
-  // 6. loading screen (to que them to look at central)
+  // 7. loading screen (to que them to look at central)
   
   
 
