@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import './login.css';
+import logo from './../img/MM-logo.png';
 
 export default class Login extends Component {
 
@@ -12,12 +14,11 @@ export default class Login extends Component {
 
   render() {
     return (
-      <div>
-        <h1 onClick={this.onLogin}>Must log in:</h1>
-
+      <div className="loginContainer">
+        <img className="logo" src={logo}/>
         <form action="">
-          <input id="userIs" autoComplete="off" />
-          <button onClick={this.userLogged.bind(this)}>Submit</button>
+          <input className="whiteInput" id="userIs" placeholder="NICKNAME" autoComplete="off" />
+          <button className="blackButton" onClick={this.userLogged.bind(this)}>Submit</button>
         </form>
 
         <br/>

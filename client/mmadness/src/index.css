@@ -12,3 +12,31 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.logo {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.blackButton {
+  background-color: #323232;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.whiteInput {
+  margin: 10px 0;
+  color:rgba(12,65,101,1);
+  padding: 12px;
+  text-align: center;
+  border: rgb(85, 85, 85) 1px solid;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.whiteInput::placeholder{
+  color: rgb(139, 139, 139) !important;
+}

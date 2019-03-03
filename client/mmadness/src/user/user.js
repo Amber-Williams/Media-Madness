@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import ListGifs from './../listGifs/listGifs';
+import './user.css';
+import logo from './../img/MM-logo.png';
 
 export default class User extends Component {
   constructor(){
@@ -16,7 +18,7 @@ export default class User extends Component {
     this.clearSearch()
     this.setState({
       submittedGif: <img alt={selectedGif.title} src={selectedGif.images.fixed_height.url} />,
-      summitButton: <button onClick={(event) => {this.submitGif(selectedGif, event)}}>Submit</button>
+      summitButton: <button className="blackButton" onClick={(event) => {this.submitGif(selectedGif, event)}}>Submit</button>
     })
   }
 
@@ -27,17 +29,19 @@ export default class User extends Component {
     this.setState({
       waiting: true
     })
+
   }
 
   
-  searchGif(event){
+  searchGif (event){
     event.preventDefault();
     let searched = document.getElementById('searched').value;
     fetch(`http://api.giphy.com/v1/gifs/search?api_key=rXTPJIC2ki2w3TA8aKiev8EkK8U1G3KT&q=${searched}`)
     .then(response => response.json())
     .then(data => this.setState ({
-      searchedGif: data
+       searchedGif: data
     }));
+    
   }
   
   clearSearch(){
@@ -54,8 +58,6 @@ export default class User extends Component {
     })
   }
 
-  
-  
   render() {
     const message = this.props.messages
     .map((message, key) => 
@@ -67,62 +69,67 @@ export default class User extends Component {
     // 2. search gif to submit &   // 3. you sure you want to submit this one?
     if (this.props.startGame && !this.state.waiting && !this.props.showSubmitted && !this.props.showScores) {
       return (
-        <div>
-          {this.props.question}
-          <h1>user is here</h1>
+        <div className='userContainer'>
+          <h1>{this.props.question}</h1>
           Gif search bar:
           <form action="">
-            <input id="searched" autoComplete="off" />
-            <button onClick={this.searchGif.bind(this)}>Search</button>
-            < ListGifs 
-              handleGif={this.handleGif}
-              searchedGif={this.state.searchedGif} 
-              />
-            {this.state.submittedGif}
-            {this.state.summitButton}
+            <input className="whiteInput" id="searched" placeholder="SEARCH GIFS" autoComplete="off" />
+            <button className="blackButton" onClick={this.searchGif.bind(this)}>Search</button>
           </form>
+            <div className={this.state.submittedGif === '' ? "gifContainer" : ""}>
+              < ListGifs 
+                handleGif={this.handleGif}
+                searchedGif={this.state.searchedGif} 
+                />
+            </div>
+            <div className="submittedGif">
+              {this.state.submittedGif}
+              {this.state.summitButton}
+            </div>
         </div>
       )
     } 
+
+    // ending 
     else if (this.props.showScores){
       return (
-        <div>look at central</div>
+        <div className='userContainer'>
+          Look at central
+          <img className="logo" src={logo}/>
+        </div>
       )
     }
     // 1. waiting for game to be started
     else if (!this.props.startGame && !this.props.showScores){
       return (
-        <div>
-          <h1>user is here</h1>
-          <h4>Waiting for game to be started</h4>
+        <div className='userContainer'>
+          <img className="logo" src={logo}/>
+          <h4>Waiting for game to be started...</h4>
         </div>
       )
     }
     // 4. waiting for other players... (on central submission)
     else if (this.state.waiting && !this.props.showSubmitted && !this.props.showScores){
       return (
-        <div>
-          <h1>user is here</h1>
-          <h4>Waiting for other players to submit</h4>
+        <div className='userContainer'>
+          <h4>Waiting for other players to submit...</h4>
         </div>
       )
     } 
     // 6. waiting for other players votes (on vote submission)
     else if (this.state.waiting && !this.props.showScores) {
       return (
-        <div>
-          <h1>user is here</h1>
-          <h4>Waiting for other players to submit votes</h4>
+        <div lassName='userContainer'>
+          <h4>Waiting for other players to submit votes...</h4>
         </div>
       )
     }
     // 5. show all gifs ( info sent by socket ) ability to vote (send back to socket-> socket updates database play)
     else {
       return (
-        <div>
-          <h1>user is here</h1>
+        <div className='userContainer'>
           <h4>Look at main screen and vote on your favorite</h4>
-          {message}
+          <ul>{message}</ul>
         </div>
         )
       }

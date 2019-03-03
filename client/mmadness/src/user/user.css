@@ -1,0 +1,55 @@
+.userContainer {
+  background: #3498DB;
+  background: linear-gradient(0deg, rgba(12,65,101,1) 0%, rgba(63,176,252,1) 34%);
+  height:100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  color:white;
+}
+
+.userContainer h1 {
+  font-size: 1rem;
+  margin: 10px;
+}
+
+.userContainer ul {
+  list-style: none;
+  padding: 0;
+}
+.logo {
+  width: 50%;
+  margin-bottom: 123px; 
+  /* This margin bottom is to match previous screens alignment */
+}
+
+/* clip-path: polygon(0 0,100% 0,99% 100%,0 97%);*/
+
+
+.gifContainer {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  height: 80vh;
+  position: relative;
+  width: 100%;
+  backface-visibility: hidden;
+  will-change: overflow;
+  margin-bottom: 20px;
+}
+
+.gifsLoaded {
+  overflow: auto;
+  height: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+}
+
+.gifsLoaded img {
+  width:80%;
+}
+
+.submittedGif button,  .submittedGif img{
+  width:90%;
+}

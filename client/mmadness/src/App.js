@@ -92,10 +92,7 @@ class App extends Component {
       return (
         <Router>
           <div>
-          Hello: {this.state.username}
-          <br/>
-          <br/>
-          <br/>
+            Hello: {this.state.username}
             <Link to='/central'>Central </Link>
             <Link to='/user'>User</Link>
             <Route 

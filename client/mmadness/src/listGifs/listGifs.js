@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
+import './../user/user.css';
 
 export default class ListGifs extends Component {
 
   render() {
     const gifList = this.props.searchedGif.data;
     let gif;
-
     if (gifList) {
       gif = gifList.map((gif, key ) => 
           <li key={key}> 
@@ -16,7 +16,7 @@ export default class ListGifs extends Component {
 
     if (gifList){
       return (
-        <div>
+        <div className="gifsLoaded">
           <ul>{gif}</ul>
         </div>
       )
