@@ -22,7 +22,9 @@ class App extends Component {
       question: '',
       users: [],
       startGame: false,
-      showSubmitted: false
+      showSubmitted: false,
+      showScores: false,
+      votes: []
     }
 
     socket.on('chat message content', (user, msg) => {
@@ -57,6 +59,12 @@ class App extends Component {
       })
     })
 
+    socket.on('show votes', (votes) => {
+      this.setState({
+        showScores: true,
+        votes
+      })
+    })
   }
   
   startGameFunc = () => {
@@ -100,6 +108,8 @@ class App extends Component {
                 startGame={this.state.startGame}
                 showSubmittedFunc={this.showSubmittedFunc}
                 showSubmitted={this.state.showSubmitted}
+                showScores={this.state.showScores}
+                votes={this.state.votes}
                 /> }
               />
             <Route 
@@ -112,6 +122,7 @@ class App extends Component {
                 messages={this.state.messages}
                 vote={this.voteMessage}
                 username={this.state.username}
+                showScores={this.state.showScores}
                 /> }
               />
           </div>

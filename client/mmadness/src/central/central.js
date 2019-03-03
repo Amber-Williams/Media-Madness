@@ -7,13 +7,31 @@ export default class Central extends Component {
   }
 
   render() {
-    const message = this.props.messages
+    // const message = this.props.messages
+    //   .map((message, key) => 
+    //     <li key={key}> 
+    //       <h4>{message.username}</h4>
+    //       <img alt={message.message.title} src={message.message.images.fixed_height.url}/> 
+    //     </li>
+    //   )
+
+    const messageNoAuthor = this.props.messages
+    .map((message, key) => 
+      <li key={key}> 
+        <img alt={message.message.title} src={message.message.images.fixed_height.url}/> 
+      </li>
+    )
+
+    let messageVotes = '';
+    if(this.props.votes) {
+      messageVotes = this.props.votes
       .map((message, key) => 
-        <li key={key}> 
-          <h4>{message.username}</h4>
-          <img alt={message.message.title} src={message.message.images.fixed_height.url}/> 
-        </li>
+      <div key={key}> 
+        <img alt={message.gif} src={message.gif}/> 
+        <p> Votes: {message.votes}</p>
+      </div>
       )
+    }
 
     let users = (<h3>no one is here</h3>);
     if (this.props.users.length > 0) {
@@ -24,11 +42,23 @@ export default class Central extends Component {
         </li>
         )
     }
-    // start screen with round question & players who have submitted // with next button
-    if (this.props.startGame && this.props.users.length > 0 && !this.props.showSubmitted) {
+    //move the above logic else where
+
+    // 4. Vote results
+    if (this.props.showScores) {
       return (
         <div className="centralApp">
-          <h1> 2. central is here </h1>
+          <h1> central is here</h1>
+          <h4>works</h4> 
+          {messageVotes}
+        </div>
+      )
+    }
+    // 2. start screen with round question & players who have submitted // with next button
+    else if (this.props.startGame && this.props.users.length > 0 && !this.props.showSubmitted) {
+      return (
+        <div className="centralApp">
+          <h1> central is here </h1>
           {this.props.question}
           <br/>
           <ul>
@@ -38,13 +68,15 @@ export default class Central extends Component {
         </div>
       )
     } 
-    // show submitted answers
+    
+    // 3. show gifs & vote on your screen!
     else if (this.props.showSubmitted) {
       return (
         <div className="centralApp">
-          <h1> 3. central is here </h1>
+          <h1> central is here </h1>
           {this.props.question}
-          {message}
+          <h4> Vote on your Screen now! </h4>
+          {messageNoAuthor}
           <br/>
           <ul>
             {users}
@@ -52,11 +84,11 @@ export default class Central extends Component {
         </div>
       )
     }
-    // whos joined screen with start button
+    // 1. whos joined screen with start button
     else {
       return (
         <div className="centralApp">
-          <h1> 1. central is here</h1>
+          <h1> central is here</h1>
           <ul>
             {users}
           </ul>
@@ -64,12 +96,15 @@ export default class Central extends Component {
         </div>
       )
     }
-    //Need scores screen with start new game button
+    
   }
 }
 
 //Break up screens into strages
   //if this stage render that component
+
+
+
 
 
 

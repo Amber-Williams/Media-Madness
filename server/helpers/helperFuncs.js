@@ -20,7 +20,7 @@ const loggedUsers = async () => {
     const userLog = await UserLog.collection.find({}).toArray();
     return userLog;
   } catch(e) {
-    throw new Error(`An error occurred while creating a user: ${e}`);
+    throw new Error(`An error occurred while getting logged users: ${e}`);
   }
 }
 
@@ -39,6 +39,14 @@ const play = async (user, gif) => {
   }
 }
 
+const loggedPlays = async () => {
+  try {
+    const playLog = await Play.collection.find({}).toArray();
+    return playLog;
+  } catch(e) {
+    throw new Error(`An error occurred while getting logged plays: ${e}`);
+  }
+}
 
 const empty = async () => {
   try {
@@ -47,11 +55,11 @@ const empty = async () => {
     throw new Error(`An error occurred while emptying play log: ${e}`);
   }
 
-    try {
-      await UserLog.collection.deleteMany({})
-    } catch(e) {
-      throw new Error(`An error occurred while emptying user log: ${e}`);
-    }
+  try {
+    await UserLog.collection.deleteMany({})
+  } catch(e) {
+    throw new Error(`An error occurred while emptying user log: ${e}`);
+  }
 }
 
 const generateQuestion = () => {
@@ -80,5 +88,6 @@ module.exports = {
   empty,
   generateQuestion,
   loggedUsers,
-  playVote
+  playVote,
+  loggedPlays
 }

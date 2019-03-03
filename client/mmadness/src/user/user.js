@@ -48,7 +48,7 @@ export default class User extends Component {
     })
   }
 
-  test(){
+  waiting(){
     this.setState({
       waiting: true
     })
@@ -60,12 +60,12 @@ export default class User extends Component {
     const message = this.props.messages
     .map((message, key) => 
       <li key={key}>
-        <img alt={message.message.title}  src={message.message.images.fixed_height_still.url}  onClick={()=> {this.props.vote(message.username, message.message.images.fixed_height.url, this.props.username); this.test()}}/> 
+        <img alt={message.message.title}  src={message.message.images.fixed_height_still.url}  onClick={()=> {this.props.vote(message.username, message.message.images.fixed_height.url, this.props.username); this.waiting()}}/> 
       </li>
     )
 
     // 2. search gif to submit &   // 3. you sure you want to submit this one?
-    if (this.props.startGame && !this.state.waiting && !this.props.showSubmitted) {
+    if (this.props.startGame && !this.state.waiting && !this.props.showSubmitted && !this.props.showScores) {
       return (
         <div>
           {this.props.question}
@@ -84,8 +84,13 @@ export default class User extends Component {
         </div>
       )
     } 
+    else if (this.props.showScores){
+      return (
+        <div>look at central</div>
+      )
+    }
     // 1. waiting for game to be started
-    else if (!this.props.startGame){
+    else if (!this.props.startGame && !this.props.showScores){
       return (
         <div>
           <h1>user is here</h1>
@@ -94,7 +99,7 @@ export default class User extends Component {
       )
     }
     // 4. waiting for other players... (on central submission)
-    else if (this.state.waiting && !this.props.showSubmitted){
+    else if (this.state.waiting && !this.props.showSubmitted && !this.props.showScores){
       return (
         <div>
           <h1>user is here</h1>
@@ -103,7 +108,7 @@ export default class User extends Component {
       )
     } 
     // 6. waiting for other players votes (on vote submission)
-    else if (this.state.waiting) {
+    else if (this.state.waiting && !this.props.showScores) {
       return (
         <div>
           <h1>user is here</h1>

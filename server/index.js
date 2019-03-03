@@ -13,11 +13,12 @@ let userCount = 0;
 
 let question = methods.generateQuestion();
 
+let voteCount = 0;
 io.on('connection', function(socket){
   userCount++;
   //io.of('/namespace').on('connect', (user))=>{function here}
   socket.on('login', async function(user) {
-    methods.logUser(user, socket.id)
+    methods.logUser(user, socket.id);
     io.emit('global users', question, await methods.loggedUsers());
 
     io.sockets.connected[socket.id].emit('personal login user', socket.id, user);
@@ -25,7 +26,8 @@ io.on('connection', function(socket){
 
   socket.on('chat message', function(user, msg){
     io.emit('chat message content', user, msg);
-    methods.play(user, msg.images.fixed_height.url)
+    methods.play(user, msg.images.fixed_height.url);
+    
   });
 
   socket.on('start game', function(){
@@ -33,17 +35,23 @@ io.on('connection', function(socket){
   });
 
   socket.on('submitted round', () => {
-    io.emit('submitted a round')
+    io.emit('submitted a round');
+   
   })
 
-  socket.on('user voted', (owner, play, voter) =>{
-    methods.playVote(owner, play, voter);
-  })  
+  socket.on('user voted',  async (owner, play, voter) => {
+      voteCount++;
+      await methods.playVote(owner, play, voter);
+      if (voteCount >= userCount) { //will need to make a different way to show send scores since people could leave ...LOGGED USERS HELPER FUNC
+        io.emit('show votes',  await methods.loggedPlays() );
+      } 
+  })
 
   socket.on('disconnect', function(){
     userCount--;
     if(userCount === 0){
       methods.empty();
+      voteCount = 0;
     }
   });
 });
