@@ -1,3 +1,49 @@
 .centralApp {
-  background-color: red;
+  background: #fc3f3f;
+  background: linear-gradient(0deg, rgb(101, 15, 12) 0%, rgb(252, 63, 63) 34%);
+  height:100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  color:white;
 }
+
+.centralApp h1 {
+  font-size: 2rem;
+}
+
+.resultsListContainer {
+  display: flex;
+  flex-direction: row;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.resultContainer {
+  position: relative;
+}
+
+.resultContainer img {
+  width: 80%;
+  margin: 10px 0;
+}
+
+.resultContainer h4 {
+  position: absolute;
+  top: 5.5%;
+  left: 0;
+  margin: 0 0 0 10%;
+  background-color: rgb(0, 0, 0, 0.4);
+  padding: 5px 10px;
+}
+
+.resultContainer p {
+  position: absolute;
+  bottom: 2%;
+  right: 2%;
+  margin: 0 10% 0 0;
+  background-color: rgb(0, 0, 0, 0.4);
+  padding: 5px 10px;
+}
+

@@ -10,19 +10,23 @@ export default class Central extends Component {
 
     const messageNoAuthor = this.props.messages
     .map((message, key) => 
-      <li key={key}> 
+      <div key={key}> 
         <img alt={message.message.title} src={message.message.images.fixed_height.url}/> 
-      </li>
+      </div>
     )
 
     let messageVotes = '';
     if(this.props.votes) {
       messageVotes = this.props.votes
       .map((message, key) => 
-      <div key={key}>
+      <div className="resultContainer" key={key}>
         <h4>{message.user}</h4>
         <img alt={message.gif} src={message.gif}/> 
-        <p> Votes: {message.votes}</p>
+        <p> Votes: 
+          <ul>
+            {message.votes.map(ele => { return <li>{ele}</li> } )}
+          </ul> 
+        </p>
       </div>
       )
     }
@@ -40,11 +44,12 @@ export default class Central extends Component {
 
     // 4. Vote results
     if (this.props.showScores) {
-      console.log(this.props.votes)
       return (
         <div className="centralApp">
-          <h1> central is here</h1>
-          {messageVotes}
+            <h1> The Votes are in: </h1>
+            <div className="resultsListContainer">
+            {messageVotes}
+          </div>
         </div>
       )
     }
@@ -55,9 +60,7 @@ export default class Central extends Component {
           <h1> central is here </h1>
           {this.props.question}
           <br/>
-          <ul>
             {users}
-          </ul>
           <button onClick={this.props.showSubmittedFunc}>Show Submitted</button>
         </div>
       )
