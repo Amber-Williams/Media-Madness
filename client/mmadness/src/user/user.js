@@ -3,14 +3,19 @@ import ListGifs from './../listGifs/listGifs';
 import './user.css';
 import logo from './../img/MM-logo.png';
 
+import WaitingGameStarted from './waiting-game-started/waiting-game-started';
+import EndGame from './end-user-game/end-game';
+import WaitingSubmit from './waiting-submit/waiting-submit';
+import WaitingVotes from './waiting-votes/waiting-votes';
+import Voting from './voting/voting';
+
 export default class User extends Component {
   constructor(){
     super()
     this.state = {
       searchedGif: [],
       submittedGif: '',
-      summitButton: '',
-      waiting: false
+      summitButton: ''
     }
   }
 
@@ -26,10 +31,6 @@ export default class User extends Component {
     event.preventDefault();
     this.props.emitMessage(selectedGif);
     this.clearSearch()
-    this.setState({
-      waiting: true
-    })
-
   }
 
   
@@ -41,7 +42,6 @@ export default class User extends Component {
     .then(data => this.setState ({
        searchedGif: data
     }));
-    
   }
   
   clearSearch(){
@@ -52,22 +52,38 @@ export default class User extends Component {
     })
   }
 
-  waiting(){
-    this.setState({
-      waiting: true
-    })
-  }
 
   render() {
-    const message = this.props.messages
-    .map((message, key) => 
-      <li key={key}>
-        <img alt={message.message.title}  src={message.message.images.fixed_height_still.url}  onClick={()=> {this.props.vote(message.username, message.message.images.fixed_height.url, this.props.username); this.waiting()}}/> 
-      </li>
-    )
+     
+    if (this.props.userStage === 6) {
+      return (
+        <EndGame/>
+      )
+    }
 
-    // 2. search gif to submit &   // 3. you sure you want to submit this one?
-    if (this.props.startGame && !this.state.waiting && !this.props.showSubmitted && !this.props.showScores) {
+    else if (this.props.userStage === 5) {
+      return (
+        <WaitingVotes/>
+      )
+    }
+  
+    else if (this.props.userStage === 4) {
+      return (
+        <Voting 
+        vote={this.props.vote}
+        messages={this.props.messages}
+        username={this.props.username}
+        />
+      )
+    }
+
+    else if (this.props.userStage === 3) {
+      return (
+        <WaitingSubmit/>
+      )
+    }
+    
+    else if (this.props.userStage === 2) {
       return (
         <div className='userContainer'>
           <h1>{this.props.question}</h1>
@@ -88,73 +104,12 @@ export default class User extends Component {
             </div>
         </div>
       )
-    } 
-    // 7. END: loading screen (to que them to look at central)
-    else if (this.props.showScores) {
-      return (
-        <div className='userContainer'>
-          Look at central
-          <img className="logo" src={logo}/>
-        </div>
-      )
     }
-    // 1. waiting for game to be started
-    else if (!this.props.startGame && !this.props.showScores) {
-      return (
-        <div className='userContainer'>
-          <img className="logo" src={logo}/>
-          <h4>Waiting for game to be started...</h4>
-        </div>
-      )
-    }
-    // 4. waiting for other players... (on central submission)
-    else if (this.state.waiting && !this.props.showSubmitted && !this.props.showScores) {
-      return (
-        <div className='userContainer'>
-          <h4>Waiting for other players to submit...</h4>
-        </div>
-      )
-    } 
-    // 6. waiting for other players votes (on vote submission)
-    else if (this.props.waitingScreen) {
-      return (
-        <div className='userContainer'>
-          <h4>Waiting for other players to submit votes...</h4>
-        </div>
-      )
-    }
-    // 5. show all gifs ( info sent by socket ) ability to vote (send back to socket-> socket updates database play)
     else {
-      console.log(this.state.waiting, !this.props.showScores, this.props.showSubmitted) //true false true 
       return (
-        <div className='userContainer'>
-          <h4>Look at main screen and vote on your favorite</h4>
-          <ul>{message}</ul>
-        </div>
-        )
-      }
-
+       <WaitingGameStarted/>
+      )
     }
   }
 
-
-
-  
-  
-
-
-
-  
-  
-  ///// Below for text submissions:
-  // saySomething(event){
-    //   event.preventDefault()
-    //   this.props.emitMessage( document.getElementById('m').value );
-    //   document.getElementById('m').value = '';
-    // }
-    {/*
-    Below for text submissions:
-    <form action="">
-    <input id="m" autoComplete="off" />
-    <button onClick={this.saySomething.bind(this)}>test</button>
-  </form> */}
+}

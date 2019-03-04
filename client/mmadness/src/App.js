@@ -11,7 +11,6 @@ import methods from './helpers/helperFuncs';
 import openSocket from 'socket.io-client';
 const socket = openSocket('http://localhost:3000');
 
-
 class App extends Component {
   constructor (){
     super()
@@ -21,11 +20,9 @@ class App extends Component {
       methods,
       question: '',
       users: [],
-      startGame: false,
-      showSubmitted: false,
-      showScores: false,
       votes: [],
-      waitingScreen: false
+      userStage:1,
+      centralStage: 1
     }
 
     socket.on('chat message content', (user, msg) => {
@@ -50,31 +47,40 @@ class App extends Component {
 
     socket.on('game started', () => {
       this.setState({
-        startGame: true
+        userStage:2
       })
 
     })
 
     socket.on('submitted a round', () => {
       this.setState({
-        showSubmitted: true
+        userStage: 4,
+        centralStage: 3
       })
     })
 
     socket.on('show votes', (votes) => {
       this.setState({
-        showScores: true,
-        votes
+        votes,
+        userStage: 6,
+        centralStage: 4
       })
     })
+
   }
   
   startGameFunc = () => {
     socket.emit('start game');
+    this.setState({
+      centralStage: 2
+    })
   }
 
   emitMessage = (msg) => {
     socket.emit('chat message', this.state.username, msg);
+    this.setState({
+      userStage: 3
+    })
   }
 
   emitUser = (user) => {
@@ -84,7 +90,7 @@ class App extends Component {
   voteMessage = (user, msg, voter) => {
     socket.emit('user voted', user, msg, voter);
     this.setState({
-      waitingScreen: true
+      userStage: 5
     })
   }
 
@@ -93,9 +99,6 @@ class App extends Component {
       return (
         <Router>
           <div>
-            Hello: {this.state.username}
-            <Link to='/central'>Central </Link>
-            <Link to='/user'>User</Link>
             <Route 
               path={'/central'}
               render={ (props) => <Central {...props} 
@@ -103,40 +106,36 @@ class App extends Component {
                 question={this.state.question}
                 users={this.state.users}
                 startGameFunc={this.startGameFunc}
-                startGame={this.state.startGame}
-                showSubmitted={this.state.showSubmitted}
-                showScores={this.state.showScores}
                 votes={this.state.votes}
+                centralStage={this.state.centralStage}
                 /> }
               />
             <Route 
               path={'/user'}
               render={ (props) => <User {...props} 
+                userStage={this.state.userStage}
                 emitMessage={this.emitMessage}
                 question={this.state.question}
-                startGame={this.state.startGame}
-                showSubmitted={this.state.showSubmitted}
                 messages={this.state.messages}
                 vote={this.voteMessage}
                 username={this.state.username}
-                showScores={this.state.showScores}
-                waitingScreen={this.state.waitingScreen}
                 /> }
               />
           </div>
         </Router>
       );
     } 
-    
+
     else {
       return (
         <Router>
           <div>
-            <Link to='/central'>Central </Link>
-            <Link to='/user'>Login</Link>
             <Route 
               path='/user'
-              render={ (props) => <Login {...props} emitUser={this.emitUser} user={this.state.username} /> }
+              render={ (props) => <Login {...props} 
+                emitUser={this.emitUser} 
+                user={this.state.username} 
+                /> }
               />
             <Route 
               path={'/central'}
@@ -145,16 +144,15 @@ class App extends Component {
                 question={this.state.question}
                 users={this.state.users}
                 startGameFunc={this.startGameFunc}
-                startGame={this.state.startGame}
-                showSubmitted={this.state.showSubmitted}
-                showScores={this.state.showScores}
                 votes={this.state.votes}
-              /> }
+                centralStage={this.state.centralStage}
+                /> }
               />
           </div>
         </Router>
       )
     }
+
   }
 }
 

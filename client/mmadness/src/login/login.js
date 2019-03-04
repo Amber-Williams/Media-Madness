@@ -8,10 +8,10 @@ export default class Login extends Component {
   userLogged(event){
     event.preventDefault();
     let username = document.getElementById('userIs').value;
-      if(username.length > 0){
-        this.props.emitUser(username);
-        this.props.history.push('/user')
-      }
+    if(username.length > 0){
+      this.props.emitUser(username);
+      this.props.history.push('/user')
+    }
   }
 
   render() {
