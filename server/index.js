@@ -9,16 +9,19 @@ const methods = require('./helpers/helperFuncs');
 app.use(bodyParser.json());
 app.use(cors());
 
-let userCount = 0;
-
 let question = methods.generateQuestion();
 
+let userCount = 1;
+let submittedCount = 1;
 let voteCount = 1;
+
+
 io.on('connection', function(socket){
-  userCount++;
-  console.log('conntect', userCount)
+
   //io.of('/namespace').on('connect', (user))=>{function here}
   socket.on('login', async function(user) {
+    userCount++;
+    console.log('conntect', userCount, submittedCount)
     methods.logUser(user, socket.id);
     io.emit('global users', question, await methods.loggedUsers());
     io.sockets.connected[socket.id].emit('personal login user', socket.id, user);
@@ -28,21 +31,27 @@ io.on('connection', function(socket){
     io.emit('chat message content', user, msg);
     methods.play(user, msg.images.fixed_height.url);
     
+    submittedCount++;
+    console.log('plays', userCount, submittedCount)
+    if (submittedCount >= userCount) { //will need to make a different way to show send submits since people could leave 
+      io.emit('submitted a round');
+      console.log('showing submits');
+    }
   });
 
   socket.on('start game', function(){
     io.emit('game started');
   });
 
-  socket.on('submitted round', () => {
+  socket.on('submitted round', async () => {
     io.emit('submitted a round');
-   
+    console.log('submitted')
   })
 
   socket.on('user voted',  async (owner, play, voter) => {
       voteCount++;
       await methods.playVote(owner, play, voter);
-      if (voteCount >= userCount) { //will need to make a different way to show send scores since people could leave ...LOGGED USERS HELPER FUNC
+      if (voteCount >= userCount) { //will need to make a different way to show send scores since people could leave
         io.emit('show votes',  await methods.loggedPlays() );
       } 
   })
@@ -50,10 +59,11 @@ io.on('connection', function(socket){
   socket.on('disconnect', function(){
     userCount--;
     console.log('disconnct', userCount)
-    if(userCount <= 1){
+    if(userCount <= 0){
       methods.empty();
+      userCount = 1;
+      submittedCount = 1;
       voteCount = 1;
-      userCount = 0;
     }
   });
 });
