@@ -73,13 +73,6 @@ class App extends Component {
     socket.emit('start game');
   }
 
-  showSubmittedFunc = () => {
-    socket.emit('submitted round');
-    this.setState({
-      showSubmitted: true
-    })
-  }
-
   emitMessage = (msg) => {
     socket.emit('chat message', this.state.username, msg);
   }
@@ -111,7 +104,6 @@ class App extends Component {
                 users={this.state.users}
                 startGameFunc={this.startGameFunc}
                 startGame={this.state.startGame}
-                showSubmittedFunc={this.showSubmittedFunc}
                 showSubmitted={this.state.showSubmitted}
                 showScores={this.state.showScores}
                 votes={this.state.votes}
@@ -154,7 +146,6 @@ class App extends Component {
                 users={this.state.users}
                 startGameFunc={this.startGameFunc}
                 startGame={this.state.startGame}
-                showSubmittedFunc={this.showSubmittedFunc}
                 showSubmitted={this.state.showSubmitted}
                 showScores={this.state.showScores}
                 votes={this.state.votes}

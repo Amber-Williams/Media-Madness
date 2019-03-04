@@ -39,10 +39,6 @@ io.on('connection', function(socket){
     io.emit('game started');
   });
 
-  socket.on('submitted round', async () => {
-    io.emit('submitted a round'); // may not need this function any longer
-  });
-
   socket.on('user voted',  async (owner, play, voter) => {
       voteCount++;
       await methods.playVote(owner, play, voter);

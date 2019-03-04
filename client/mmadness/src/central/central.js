@@ -10,7 +10,7 @@ export default class Central extends Component {
 
     const messageNoAuthor = this.props.messages
     .map((message, key) => 
-      <div key={key}> 
+      <div className="resultContainer" key={key}> 
         <img alt={message.message.title} src={message.message.images.fixed_height.url}/> 
       </div>
     )
@@ -35,8 +35,8 @@ export default class Central extends Component {
     if (this.props.users.length > 0) {
       users = this.props.users
         .map((user,key) => 
-        <li key={key}> 
-          <h3>{user.username}</h3>
+        <li  key={key}> 
+          <h3 className="whiteInput">{user.username}</h3>
         </li>
         )
     }
@@ -57,11 +57,10 @@ export default class Central extends Component {
     else if (this.props.startGame && this.props.users.length > 0 && !this.props.showSubmitted) {
       return (
         <div className="centralApp">
-          <h1> central is here </h1>
           {this.props.question}
-          <br/>
+          <ul>
             {users}
-          <button onClick={this.props.showSubmittedFunc}>Show Submitted</button>
+          </ul>
         </div>
       )
     } 
@@ -70,11 +69,13 @@ export default class Central extends Component {
     else if (this.props.showSubmitted) {
       return (
         <div className="centralApp">
-          <h1> central is here </h1>
           {this.props.question}
           <h4> Vote on your Screen now! </h4>
-          {messageNoAuthor}
+          <div className="resultsListContainer">
+            {messageNoAuthor}
+          </div>
           <br/>
+          Users in room:
           <ul>
             {users}
           </ul>
@@ -85,11 +86,10 @@ export default class Central extends Component {
     else {
       return (
         <div className="centralApp">
-          <h1> central is here</h1>
           <ul>
             {users}
           </ul>
-          <button onClick={this.props.startGameFunc}>Start Game</button>
+          <button className="blackButton" onClick={this.props.startGameFunc}>Start Game</button>
         </div>
       )
     }

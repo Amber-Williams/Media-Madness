@@ -9,6 +9,13 @@
   color:white;
 }
 
+.centralApp button, .centralApp ul {
+  margin: 0 20%;
+  padding-inline-start: 0px;
+  list-style: none;
+}
+
+
 .centralApp h1 {
   font-size: 2rem;
 }
