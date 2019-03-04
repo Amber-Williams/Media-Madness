@@ -89,9 +89,8 @@ export default class User extends Component {
         </div>
       )
     } 
-
-    // ending 
-    else if (this.props.showScores){
+    // 7. END: loading screen (to que them to look at central)
+    else if (this.props.showScores) {
       return (
         <div className='userContainer'>
           Look at central
@@ -100,7 +99,7 @@ export default class User extends Component {
       )
     }
     // 1. waiting for game to be started
-    else if (!this.props.startGame && !this.props.showScores){
+    else if (!this.props.startGame && !this.props.showScores) {
       return (
         <div className='userContainer'>
           <img className="logo" src={logo}/>
@@ -109,7 +108,7 @@ export default class User extends Component {
       )
     }
     // 4. waiting for other players... (on central submission)
-    else if (this.state.waiting && !this.props.showSubmitted && !this.props.showScores){
+    else if (this.state.waiting && !this.props.showSubmitted && !this.props.showScores) {
       return (
         <div className='userContainer'>
           <h4>Waiting for other players to submit...</h4>
@@ -117,9 +116,9 @@ export default class User extends Component {
       )
     } 
     // 6. waiting for other players votes (on vote submission)
-    else if (this.state.waiting && !this.props.showScores) {
+    else if (this.state.waiting && !this.props.showScores && !this.props.showSubmitted) {
       return (
-        <div lassName='userContainer'>
+        <div className='userContainer'>
           <h4>Waiting for other players to submit votes...</h4>
         </div>
       )
@@ -137,11 +136,8 @@ export default class User extends Component {
     }
   }
 
-  
 
-  
 
-  // 7. loading screen (to que them to look at central)
   
   
 

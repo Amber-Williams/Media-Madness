@@ -16,11 +16,11 @@ let question = methods.generateQuestion();
 let voteCount = 1;
 io.on('connection', function(socket){
   userCount++;
+  console.log('conntect', userCount)
   //io.of('/namespace').on('connect', (user))=>{function here}
   socket.on('login', async function(user) {
     methods.logUser(user, socket.id);
     io.emit('global users', question, await methods.loggedUsers());
-
     io.sockets.connected[socket.id].emit('personal login user', socket.id, user);
   })
 

@@ -51,12 +51,15 @@ class App extends Component {
       this.setState({
         startGame: true
       })
+
     })
 
     socket.on('submitted a round', () => {
       this.setState({
         showSubmitted: true
       })
+      console.log('showSubmitted Round socket', this.state.showSubmitted)
+      
     })
 
     socket.on('show votes', (votes) => {
@@ -72,7 +75,11 @@ class App extends Component {
   }
 
   showSubmittedFunc = () => {
-    socket.emit('submitted round')
+    socket.emit('submitted round');
+    console.log('showSubmittedFunc')
+    this.setState({
+      showSubmitted: true
+    })
   }
 
   emitMessage = (msg) => {
@@ -140,10 +147,15 @@ class App extends Component {
             <Route 
               path={'/central'}
               render={ (props) => <Central {...props} 
-              messages={this.state.messages} 
-              user={this.state.username} 
-              users={this.state.users}
-              startGameFunc={this.startGameFunc}
+                messages={this.state.messages}
+                question={this.state.question}
+                users={this.state.users}
+                startGameFunc={this.startGameFunc}
+                startGame={this.state.startGame}
+                showSubmittedFunc={this.showSubmittedFunc}
+                showSubmitted={this.state.showSubmitted}
+                showScores={this.state.showScores}
+                votes={this.state.votes}
               /> }
               />
           </div>
