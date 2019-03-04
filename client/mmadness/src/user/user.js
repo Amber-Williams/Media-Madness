@@ -116,7 +116,7 @@ export default class User extends Component {
       )
     } 
     // 6. waiting for other players votes (on vote submission)
-    else if (this.state.waiting && !this.props.showScores && !this.props.showSubmitted) {
+    else if (this.props.waitingScreen) {
       return (
         <div className='userContainer'>
           <h4>Waiting for other players to submit votes...</h4>
@@ -125,6 +125,7 @@ export default class User extends Component {
     }
     // 5. show all gifs ( info sent by socket ) ability to vote (send back to socket-> socket updates database play)
     else {
+      console.log(this.state.waiting, !this.props.showScores, this.props.showSubmitted) //true false true 
       return (
         <div className='userContainer'>
           <h4>Look at main screen and vote on your favorite</h4>
@@ -132,7 +133,7 @@ export default class User extends Component {
         </div>
         )
       }
-      
+
     }
   }
 

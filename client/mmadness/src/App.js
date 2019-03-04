@@ -24,7 +24,8 @@ class App extends Component {
       startGame: false,
       showSubmitted: false,
       showScores: false,
-      votes: []
+      votes: [],
+      waitingScreen: false
     }
 
     socket.on('chat message content', (user, msg) => {
@@ -58,8 +59,6 @@ class App extends Component {
       this.setState({
         showSubmitted: true
       })
-      console.log('showSubmitted Round socket', this.state.showSubmitted)
-      
     })
 
     socket.on('show votes', (votes) => {
@@ -76,7 +75,6 @@ class App extends Component {
 
   showSubmittedFunc = () => {
     socket.emit('submitted round');
-    console.log('showSubmittedFunc')
     this.setState({
       showSubmitted: true
     })
@@ -91,7 +89,10 @@ class App extends Component {
   }
 
   voteMessage = (user, msg, voter) => {
-    socket.emit('user voted', user, msg, voter)
+    socket.emit('user voted', user, msg, voter);
+    this.setState({
+      waitingScreen: true
+    })
   }
 
   render() {
@@ -127,6 +128,7 @@ class App extends Component {
                 vote={this.voteMessage}
                 username={this.state.username}
                 showScores={this.state.showScores}
+                waitingScreen={this.state.waitingScreen}
                 /> }
               />
           </div>
