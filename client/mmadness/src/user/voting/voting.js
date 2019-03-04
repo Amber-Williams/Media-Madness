@@ -14,7 +14,11 @@ export default class Voting extends Component {
 
         <div className='userContainer'>
           <h4>Look at main screen and vote on your favorite</h4>
-          <ul>{message}</ul>
+          <div className='gifContainer'>
+            <div className="gifsLoaded">
+              <ul>{message}</ul>
+            </div>
+          </div>
         </div>
     )
   }
