@@ -8,8 +8,10 @@ export default class Login extends Component {
   userLogged(event){
     event.preventDefault();
     let username = document.getElementById('userIs').value;
-    this.props.emitUser(username);
-    this.props.history.push('/user')
+      if(username.length > 0){
+        this.props.emitUser(username);
+        this.props.history.push('/user')
+      }
   }
 
   render() {
@@ -20,8 +22,6 @@ export default class Login extends Component {
           <input className="whiteInput" id="userIs" placeholder="NICKNAME" autoComplete="off" />
           <button className="blackButton" onClick={this.userLogged.bind(this)}>Submit</button>
         </form>
-
-        <br/>
       </div>
     )
   }
