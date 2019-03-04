@@ -13,7 +13,7 @@ let userCount = 0;
 
 let question = methods.generateQuestion();
 
-let voteCount = 0;
+let voteCount = 1;
 io.on('connection', function(socket){
   userCount++;
   //io.of('/namespace').on('connect', (user))=>{function here}
@@ -49,9 +49,11 @@ io.on('connection', function(socket){
 
   socket.on('disconnect', function(){
     userCount--;
-    if(userCount === 0){
+    console.log('disconnct', userCount)
+    if(userCount <= 1){
       methods.empty();
-      voteCount = 0;
+      voteCount = 1;
+      userCount = 0;
     }
   });
 });

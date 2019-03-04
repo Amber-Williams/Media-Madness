@@ -7,13 +7,6 @@ export default class Central extends Component {
   }
 
   render() {
-    // const message = this.props.messages
-    //   .map((message, key) => 
-    //     <li key={key}> 
-    //       <h4>{message.username}</h4>
-    //       <img alt={message.message.title} src={message.message.images.fixed_height.url}/> 
-    //     </li>
-    //   )
 
     const messageNoAuthor = this.props.messages
     .map((message, key) => 

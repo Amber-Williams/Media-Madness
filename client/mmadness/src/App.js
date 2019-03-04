@@ -139,7 +139,12 @@ class App extends Component {
               />
             <Route 
               path={'/central'}
-              render={ (props) => <Central {...props} messages={this.state.messages} user={this.state.username} users={this.state.users}/> }
+              render={ (props) => <Central {...props} 
+              messages={this.state.messages} 
+              user={this.state.username} 
+              users={this.state.users}
+              startGameFunc={this.startGameFunc}
+              /> }
               />
           </div>
         </Router>
