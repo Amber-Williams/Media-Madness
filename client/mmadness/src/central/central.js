@@ -19,7 +19,8 @@ export default class Central extends Component {
     if(this.props.votes) {
       messageVotes = this.props.votes
       .map((message, key) => 
-      <div key={key}> 
+      <div key={key}>
+        <h4>{message.user}</h4>
         <img alt={message.gif} src={message.gif}/> 
         <p> Votes: {message.votes}</p>
       </div>
@@ -39,10 +40,10 @@ export default class Central extends Component {
 
     // 4. Vote results
     if (this.props.showScores) {
+      console.log(this.props.votes)
       return (
         <div className="centralApp">
           <h1> central is here</h1>
-          <h4>works</h4> 
           {messageVotes}
         </div>
       )
