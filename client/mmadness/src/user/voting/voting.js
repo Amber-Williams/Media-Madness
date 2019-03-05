@@ -5,9 +5,10 @@ export default class Voting extends Component {
   render() {
     const message = this.props.messages
       .filter(message => {
-        if (this.props.username !== message.username) {
-          return message
-      }})
+        if ( message.round === this.props.currentRound) {
+          if (this.props.username !== message.username) {
+            return message
+      }}})
       .map((message, key) => 
         <li key={key}>
           <img alt={message.message.title}  src={message.message.images.fixed_height_still.url}  onClick={()=> {this.props.vote(message.username, message.message.images.fixed_height.url, this.props.username)}}/> 

@@ -21,13 +21,14 @@ class App extends Component {
       question: '',
       users: [],
       votes: [],
-      userStage:1,
-      centralStage: 1
+      userStage: 1,
+      centralStage: 1,
+      currentRound: 0
     }
 
-    socket.on('chat message content', (user, msg) => {
+    socket.on('chat message content', (username, message, round) => {
       this.setState({
-        messages: [...this.state.messages, {username: user, message: msg}]
+        messages: [...this.state.messages, {username, message, round}]
       });
     })
   
@@ -47,9 +48,10 @@ class App extends Component {
 
     socket.on('game started', () => {
       this.setState({
-        userStage:2
+        userStage:2,
+        centralStage: 2,
+        currentRound: this.state.currentRound + 1
       })
-
     })
 
     socket.on('submitted a round', () => {
@@ -71,9 +73,6 @@ class App extends Component {
   
   startGameFunc = () => {
     socket.emit('start game');
-    this.setState({
-      centralStage: 2
-    })
   }
 
   emitMessage = (msg) => {
@@ -100,17 +99,6 @@ class App extends Component {
         <Router>
           <div>
             <Route 
-              path={'/central'}
-              render={ (props) => <Central {...props} 
-                messages={this.state.messages}
-                question={this.state.question}
-                users={this.state.users}
-                startGameFunc={this.startGameFunc}
-                votes={this.state.votes}
-                centralStage={this.state.centralStage}
-                /> }
-              />
-            <Route 
               path={'/user'}
               render={ (props) => <User {...props} 
                 userStage={this.state.userStage}
@@ -119,6 +107,8 @@ class App extends Component {
                 messages={this.state.messages}
                 vote={this.voteMessage}
                 username={this.state.username}
+                startGameFunc={this.startGameFunc}
+                currentRound={this.state.currentRound}
                 /> }
               />
           </div>
@@ -146,6 +136,7 @@ class App extends Component {
                 startGameFunc={this.startGameFunc}
                 votes={this.state.votes}
                 centralStage={this.state.centralStage}
+                currentRound={this.state.currentRound}
                 /> }
               />
           </div>

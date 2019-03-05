@@ -24,11 +24,11 @@ const loggedUsers = async () => {
   }
 }
 
-const play = async (user, gif) => {
+const play = async (user, gif, round) => {
   const play = {
     user,
     gif,
-    round: 0,
+    round,
     votes: []
   }
 

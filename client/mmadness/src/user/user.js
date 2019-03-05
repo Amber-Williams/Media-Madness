@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import ListGifs from './../listGifs/listGifs';
-import './user.css';
-import logo from './../img/MM-logo.png';
+import './user.css'; 
 
 import WaitingGameStarted from './waiting-game-started/waiting-game-started';
 import EndGame from './end-user-game/end-game';
@@ -57,7 +56,9 @@ export default class User extends Component {
      
     if (this.props.userStage === 6) {
       return (
-        <EndGame/>
+        <EndGame
+        startGameFunc={this.props.startGameFunc}
+        />
       )
     }
 
@@ -73,6 +74,7 @@ export default class User extends Component {
         vote={this.props.vote}
         messages={this.props.messages}
         username={this.props.username}
+        currentRound={this.props.currentRound}
         />
       )
     }

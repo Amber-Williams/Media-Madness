@@ -24,6 +24,8 @@ export default class Central extends Component {
       return (
         <VoteResults
         votes={this.props.votes}
+        messages={this.props.messages}
+        currentRound={this.props.currentRound}
         />
       )
     }
@@ -34,6 +36,7 @@ export default class Central extends Component {
         question={this.props.question}
         users={users}
         messages={this.props.messages}
+        currentRound={this.props.currentRound}
         />
       )
     }
@@ -55,7 +58,7 @@ export default class Central extends Component {
         />
       )
     }
-    
+
   }
 }
 

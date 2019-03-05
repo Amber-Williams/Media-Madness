@@ -15,8 +15,15 @@ let userCount = 1;
 let submittedCount = 1;
 let voteCount = 1;
 
+let round = 0;
 
-io.on('connection', function(socket){
+
+io.on('connection', (socket) => {
+
+  socket.on('start over', () =>{
+
+  })
+
   //io.of('/namespace').on('connect', (user))=>{function here}
   socket.on('login', async function(user) {
     userCount++;
@@ -25,18 +32,21 @@ io.on('connection', function(socket){
     io.sockets.connected[socket.id].emit('personal login user', socket.id, user);
   });
 
-  socket.on('chat message', function(user, msg){
-    io.emit('chat message content', user, msg);
-    methods.play(user, msg.images.fixed_height.url);
-    
+  socket.on('start game', () => {
+    round++;
+    question;
+    submittedCount = 1;
+    voteCount = 1;
+    io.emit('game started');
+  });
+
+  socket.on('chat message', (user, msg) => {
+    io.emit('chat message content', user, msg, round);
+    methods.play(user, msg.images.fixed_height.url, round);
     submittedCount++;
     if (submittedCount >= userCount) { // will need to make a different way to show send submits since people could leave 
       io.emit('submitted a round');
     }
-  });
-
-  socket.on('start game', function(){
-    io.emit('game started');
   });
 
   socket.on('user voted',  async (owner, play, voter) => {
@@ -47,13 +57,16 @@ io.on('connection', function(socket){
       } 
   });
 
-  socket.on('disconnect', function(){
+
+
+  socket.on('disconnect', () => {
     userCount--;
     if(userCount <= 0){
       methods.empty();
       userCount = 1;
       submittedCount = 1;
       voteCount = 1;
+      round = 0;
     }
   });
 });
