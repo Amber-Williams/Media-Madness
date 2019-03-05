@@ -49,6 +49,14 @@ const loggedPlays = async () => {
   }
 }
 
+const playVote = async (owner, play, voter, round) => {
+  try {
+    await Play.collection.findOneAndUpdate({'gif': play, 'user': owner, 'round': round}, {"$push": {'votes': voter}})
+  } catch(e) {
+    throw new Error(`An error occurred while creating a play vote: ${e}`);
+  }
+}
+
 const empty = async () => {
   try {
     await Play.collection.deleteMany({})
@@ -74,13 +82,13 @@ const generateQuestion = () => {
 
   return question.text;
 }
-
-const playVote = async (owner, play, voter) => {
-  try {
-    await Play.collection.findOneAndUpdate({'gif': play, 'user': owner}, {"$push": {'votes': voter}})
-  } catch(e) {
-    throw new Error(`An error occurred while creating a play vote: ${e}`);
+const generateRoomCode = () => {
+  const alp = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const code = [];
+  for (let i = 0; i < 4; i++){
+    code.push(alp[Math.floor(Math.random() * Math.floor(alp.length-1))])
   }
+  return code.join('');
 }
 
 module.exports = {
@@ -90,5 +98,6 @@ module.exports = {
   generateQuestion,
   loggedUsers,
   playVote,
-  loggedPlays
+  loggedPlays,
+  generateRoomCode
 }

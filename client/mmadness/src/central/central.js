@@ -53,6 +53,7 @@ export default class Central extends Component {
     else {
       return (
         <StartGame 
+        roomCode={this.props.roomCode}
         startGameFunc={this.props.startGameFunc}
         users={users}
         />

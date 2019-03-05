@@ -5,6 +5,7 @@ export default class StartGame extends Component {
   render() {
       return (
         <div className="centralApp">
+          Room Code is: {this.props.roomCode}
         <ul>
           {this.props.users}
         </ul>

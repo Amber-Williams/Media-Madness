@@ -16,6 +16,7 @@ class App extends Component {
   constructor (){
     super()
     this.state = {
+      roomCode: '',
       messages: [],
       username: '',
       methods,
@@ -27,23 +28,24 @@ class App extends Component {
       currentRound: 0
     }
 
-    socket.on('chat message content', (username, message, round) => {
+    socket.on('game room code', (roomCode) =>{
       this.setState({
-        messages: [...this.state.messages, {username, message, round}]
+        roomCode
       });
     })
+
+    socket.on('personal login user', (id, username) => {
+      this.setState({
+        username
+      });
+      localStorage.setItem('socketId', id) //will need to store these into per game room in a database table so person can rejoin room on disconnection
+    })
+
   
     socket.on('global users', (users) => {
       this.setState({
         users
       });
-    })
-    
-    socket.on('personal login user', (id, user) => {
-      this.setState({
-        username: user
-      });
-      localStorage.setItem('socketId', id) //will need to store these into per game room in a database table so person can rejoin room on disconnection
     })
 
     socket.on('game started', (question) => {
@@ -54,6 +56,12 @@ class App extends Component {
         currentRound: this.state.currentRound + 1
       })
       //need to make log in user disabled on game start to avoid users joining in middle of game
+    })
+
+    socket.on('chat message content', (username, message, round) => {
+      this.setState({
+        messages: [...this.state.messages, {username, message, round}]
+      });
     })
 
     socket.on('submitted a round', () => {
@@ -70,6 +78,10 @@ class App extends Component {
         centralStage: 4
       })
     })
+    socket.on('room code does not exist', () => {
+      alert('room code does not exist')
+      //need to place this into an html element that shows on user log in screen
+    })
 
   }
   
@@ -84,17 +96,17 @@ class App extends Component {
     })
   }
 
-  emitUser = (user) => {
+  emitUser = (user, roomCode) => {
     let checkIfUserExists = this.state.users.filter(name=> {return name.username === user});
     if(checkIfUserExists.length === 0){
-      socket.emit('login', user);
+      socket.emit('login', user, roomCode);
     } else {
       alert('User already exists')
     }
   }
 
   voteMessage = (user, msg, voter) => {
-    socket.emit('user voted', user, msg, voter);
+    socket.emit('user voted', user, msg, voter, this.state.currentRound);
     this.setState({
       userStage: 5
     })
@@ -137,6 +149,7 @@ class App extends Component {
             <Route 
               path={'/central'}
               render={ (props) => <Central {...props} 
+                roomCode={this.state.roomCode}
                 messages={this.state.messages}
                 question={this.state.question}
                 users={this.state.users}
