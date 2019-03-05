@@ -18,7 +18,7 @@ export default class VoteResults extends Component {
           <h4>{message.user}</h4>
           <img alt={message.gif} src={message.gif}/> 
           <div> 
-            Votes:  
+            Votes:&nbsp;{message.votes.length}
             <ul>
               {message.votes.map(ele => { return <li>{ele}</li> } )}
             </ul> 

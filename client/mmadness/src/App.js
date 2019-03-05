@@ -3,6 +3,7 @@ import './App.css';
 import User from './user/user';
 import Central from './central/central';
 import Login from './login/login';
+import { Markup } from 'interweave';
 
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
@@ -47,7 +48,7 @@ class App extends Component {
 
     socket.on('game started', (question) => {
       this.setState({
-        question,
+        question: <Markup content={question} />,
         userStage:2,
         centralStage: 2,
         currentRound: this.state.currentRound + 1
