@@ -41,7 +41,7 @@ io.on('connection', (socket) => {
       io.sockets.in("room-"+roomIdEntered).emit('global users', await methods.loggedUsers(roomIdEntered), roomIdEntered);
       io.sockets.connected[socket.id].emit('personal login user', socket.id, user);
     } else {
-      io.emit('room code does not exist') //will need to make this fire differently because it will fire across everyones rn
+      io.sockets.connected[socket.id].emit('room code does not exist');
     }
     //TTD add function here to remove user generated roomId from active rooms ...ifCurrentRoom.userCount <=0 ...delete
   });

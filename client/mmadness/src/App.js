@@ -25,7 +25,8 @@ class App extends Component {
       votes: [],
       userStage: 1,
       centralStage: 1,
-      currentRound: 0
+      currentRound: 0,
+      error: ''
     }
 
     socket.on('game room code', (roomCode) =>{
@@ -80,8 +81,9 @@ class App extends Component {
       })
     })
     socket.on('room code does not exist', () => {
-      alert('room code does not exist')
-      //need to place this into an html element that shows on user log in screen
+      this.setState({
+        error: 'Room code does not exist'
+      })
     })
 
   }
@@ -147,6 +149,7 @@ class App extends Component {
               render={ (props) => <Login {...props} 
                 emitUser={this.emitUser} 
                 user={this.state.username} 
+                error={this.state.error}
                 /> }
               />
             <Route 

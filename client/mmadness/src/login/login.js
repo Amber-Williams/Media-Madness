@@ -3,7 +3,9 @@ import './login.css';
 import logo from './../img/MM-logo.png';
 
 export default class Login extends Component {
-
+  state = {
+    errorStyle:''
+  }
   
   userLogged(event){
     event.preventDefault();
@@ -15,6 +17,7 @@ export default class Login extends Component {
     }
   }
 
+
   render() {
     return (
       <div className="loginContainer">
@@ -23,6 +26,7 @@ export default class Login extends Component {
           <input className="whiteInput" id="roomCodeIs" placeholder="ROOMCODE" autoComplete="off" />
           <input className="whiteInput" id="userIs" placeholder="NICKNAME" autoComplete="off" />
           <button className="blackButton" onClick={this.userLogged.bind(this)}>Submit</button>
+          <p> {this.props.error} </p>
         </form>
       </div>
     )
