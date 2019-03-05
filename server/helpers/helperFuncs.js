@@ -3,10 +3,11 @@ const Play = require('./../models/playSchema');
 const UserLog = require('./../models/userLogSchema');
 const questionData = require('./questions.json');
 
-const logUser = async (username, socketId) => {
+const logUser = async (username, socketId, roomId) => {
   const user = {
     username,
     socketId,
+    roomId
   }
   try {
     await UserLog.collection.insertOne(user)
@@ -15,22 +16,23 @@ const logUser = async (username, socketId) => {
   }
 }
 
-const loggedUsers = async () => {
+const loggedUsers = async (roomId) => {
   try {
-    const userLog = await UserLog.collection.find({}).toArray();
+    const userLog = await UserLog.collection.find({'roomId': roomId}).toArray();
     return userLog;
   } catch(e) {
     throw new Error(`An error occurred while getting logged users: ${e}`);
   }
 }
 
-const play = async (user, gif, round, question) => {
+const play = async (user, gif, round, question, roomId) => {
   const play = {
     question,
     user,
     gif,
     round,
-    votes: []
+    votes: [],
+    roomId
   }
 
   try {
@@ -40,18 +42,18 @@ const play = async (user, gif, round, question) => {
   }
 }
 
-const loggedPlays = async () => {
+const loggedPlays = async (roomId) => {
   try {
-    const playLog = await Play.collection.find({}).toArray();
+    const playLog = await Play.collection.find({'roomId': roomId}).toArray();
     return playLog;
   } catch(e) {
     throw new Error(`An error occurred while getting logged plays: ${e}`);
   }
 }
 
-const playVote = async (owner, play, voter, round) => {
+const playVote = async (owner, play, voter, round, roomId) => {
   try {
-    await Play.collection.findOneAndUpdate({'gif': play, 'user': owner, 'round': round}, {"$push": {'votes': voter}})
+    await Play.collection.findOneAndUpdate({'gif': play, 'user': owner, 'round': round, 'roomId': roomId}, {"$push": {'votes': voter}})
   } catch(e) {
     throw new Error(`An error occurred while creating a play vote: ${e}`);
   }
@@ -82,7 +84,7 @@ const generateQuestion = () => {
 
   return question.text;
 }
-const generateRoomCode = () => {
+const generateRoomId = () => {
   const alp = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const code = [];
   for (let i = 0; i < 4; i++){
@@ -99,5 +101,5 @@ module.exports = {
   loggedUsers,
   playVote,
   loggedPlays,
-  generateRoomCode
+  generateRoomId
 }

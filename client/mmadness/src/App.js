@@ -42,9 +42,10 @@ class App extends Component {
     })
 
   
-    socket.on('global users', (users) => {
+    socket.on('global users', (users, roomCode) => {
       this.setState({
-        users
+        users,
+        roomCode
       });
     })
 
@@ -86,11 +87,11 @@ class App extends Component {
   }
   
   startGameFunc = () => {
-    socket.emit('start game');
+    socket.emit('start game', this.state.roomCode);
   }
 
   emitMessage = (msg) => {
-    socket.emit('chat message', this.state.username, msg);
+    socket.emit('chat message', this.state.username, msg, this.state.roomCode);
     this.setState({
       userStage: 3
     })
@@ -98,6 +99,7 @@ class App extends Component {
 
   emitUser = (user, roomCode) => {
     let checkIfUserExists = this.state.users.filter(name=> {return name.username === user});
+    console.log("users", this.state.users) //THIS IS NOT WORKING ANY LONGER ... STATE WON"T CHANGE
     if(checkIfUserExists.length === 0){
       socket.emit('login', user, roomCode);
     } else {
@@ -106,7 +108,7 @@ class App extends Component {
   }
 
   voteMessage = (user, msg, voter) => {
-    socket.emit('user voted', user, msg, voter, this.state.currentRound);
+    socket.emit('user voted', user, msg, voter, this.state.currentRound, this.state.roomCode);
     this.setState({
       userStage: 5
     })
@@ -136,6 +138,7 @@ class App extends Component {
     } 
 
     else {
+      
       return (
         <Router>
           <div>
