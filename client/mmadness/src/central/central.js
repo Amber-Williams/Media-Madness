@@ -10,7 +10,7 @@ export default class Central extends Component {
 
   render() {
 
-    let users = (<h3>no one is here</h3>);
+    let users = (<h3>NO ONE HAS JOINED</h3>);
     if (this.props.users.length > 0) {
       users = this.props.users
         .map((user,key) => 

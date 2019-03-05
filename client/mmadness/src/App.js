@@ -10,7 +10,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import methods from './helpers/helperFuncs';
 
 import openSocket from 'socket.io-client';
-const socket = openSocket('http://localhost:3000');
+const socket = openSocket('http://localhost:3000/');
 
 class App extends Component {
   constructor (){
@@ -53,6 +53,7 @@ class App extends Component {
         centralStage: 2,
         currentRound: this.state.currentRound + 1
       })
+      //need to make log in user disabled on game start to avoid users joining in middle of game
     })
 
     socket.on('submitted a round', () => {
@@ -84,7 +85,12 @@ class App extends Component {
   }
 
   emitUser = (user) => {
-    socket.emit('login', user);
+    let checkIfUserExists = this.state.users.filter(name=> {return name.username === user});
+    if(checkIfUserExists.length === 0){
+      socket.emit('login', user);
+    } else {
+      alert('User already exists')
+    }
   }
 
   voteMessage = (user, msg, voter) => {

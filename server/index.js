@@ -17,15 +17,15 @@ let voteCount = 1;
 
 let round = 0;
 
+namespace = io.of("/test");
 
 io.on('connection', (socket) => {
 
-  socket.on('start over', () =>{
-
+  socket.on('start over', () =>{ // need to add start over function here
   })
 
   //io.of('/namespace').on('connect', (user))=>{function here}
-  socket.on('login', async function(user) {
+  socket.on('login', async (user) => {
     userCount++;
     methods.logUser(user, socket.id);
     io.emit('global users', await methods.loggedUsers());
