@@ -24,8 +24,9 @@ const loggedUsers = async () => {
   }
 }
 
-const play = async (user, gif, round) => {
+const play = async (user, gif, round, question) => {
   const play = {
+    question,
     user,
     gif,
     round,

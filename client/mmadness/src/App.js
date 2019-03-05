@@ -32,9 +32,8 @@ class App extends Component {
       });
     })
   
-    socket.on('global users', (question, users) => {
+    socket.on('global users', (users) => {
       this.setState({
-        question,
         users
       });
     })
@@ -46,8 +45,9 @@ class App extends Component {
       localStorage.setItem('socketId', id) //will need to store these into per game room in a database table so person can rejoin room on disconnection
     })
 
-    socket.on('game started', () => {
+    socket.on('game started', (question) => {
       this.setState({
+        question,
         userStage:2,
         centralStage: 2,
         currentRound: this.state.currentRound + 1

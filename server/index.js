@@ -28,21 +28,21 @@ io.on('connection', (socket) => {
   socket.on('login', async function(user) {
     userCount++;
     methods.logUser(user, socket.id);
-    io.emit('global users', question, await methods.loggedUsers());
+    io.emit('global users', await methods.loggedUsers());
     io.sockets.connected[socket.id].emit('personal login user', socket.id, user);
   });
 
   socket.on('start game', () => {
     round++;
-    question;
+    question = methods.generateQuestion();
     submittedCount = 1;
     voteCount = 1;
-    io.emit('game started');
+    io.emit('game started', question);
   });
 
   socket.on('chat message', (user, msg) => {
     io.emit('chat message content', user, msg, round);
-    methods.play(user, msg.images.fixed_height.url, round);
+    methods.play(user, msg.images.fixed_height.url, round, question);
     submittedCount++;
     if (submittedCount >= userCount) { // will need to make a different way to show send submits since people could leave 
       io.emit('submitted a round');
