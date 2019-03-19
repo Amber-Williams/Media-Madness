@@ -36,10 +36,10 @@ io.on('connection', (socket) => {
     const currentRoom = activeRooms.find(room => room.roomId === roomIdEntered)
     if (currentRoom) {
       currentRoom.userCount++;
-      methods.logUser(user, socket.id, roomIdEntered);
+      await methods.logUser(user, socket.id, roomIdEntered);
       socket.join("room-"+roomIdEntered);
-      io.sockets.in("room-"+roomIdEntered).emit('global users', await methods.loggedUsers(roomIdEntered), roomIdEntered);
       io.sockets.connected[socket.id].emit('personal login user', socket.id, user);
+      io.sockets.in("room-"+roomIdEntered).emit('global users', await methods.loggedUsers(roomIdEntered), roomIdEntered);
     } else {
       io.sockets.connected[socket.id].emit('room code does not exist');
     }
