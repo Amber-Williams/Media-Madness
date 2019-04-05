@@ -1,6 +1,4 @@
-# Media Madness
-
-
+<div align="center"><img width="300px" src="./src/img/MM-logo.png"/></div>
 
 ### Getting Started
 
