@@ -24,7 +24,7 @@ npx nodemon
 
 Now your back end is set up! Now for the front end...
 
-1) Go into the media madness client folder -> mmadness folder and run 
+1) Go into the media madness client folder and run 
 
 ````
 npm install
