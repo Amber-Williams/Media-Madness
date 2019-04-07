@@ -15,9 +15,13 @@
     "socket.io-client": "^2.2.0",
     "socket.io.users": "^2.0.2"
   },
+  "engines": {
+    "node": "10.x"
+  },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx nodemon"
   },
   "repository": {
     "type": "git",
