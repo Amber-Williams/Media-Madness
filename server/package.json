@@ -1,5 +1,5 @@
 {
-  "name": "media-madness",
+  "name": "media-madness-server",
   "version": "1.0.0",
   "description": "A game for your friends",
   "main": "index.js",
