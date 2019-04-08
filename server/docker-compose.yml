@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+
+  server:
+    build: .
+    volumes:
+     - './:/server'
+     - '/server/node_modules'
+    ports:
+     - '3000:3000'
+    container_name: MediaMadness-Server
