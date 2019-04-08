@@ -10,7 +10,9 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import methods from './helpers/helperFuncs';
 
 import openSocket from 'socket.io-client';
-const socket = openSocket(process.env.PORT || 'http://localhost:3000');
+const socket = openSocket(process.env.REACT_APP_SERVER_URL || 'http://localhost:3000');
+console.log('PORT HERE',process.env.REACT_APP_SERVER_URL)
+console.log('OMG SOCKET HERE', socket)
 
 class App extends Component {
   constructor (){
