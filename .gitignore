@@ -1,3 +1,10 @@
+#design folder
+/design
+
+
+# DS Store
+.DS_Store
+
 # Logs
 logs
 *.log
