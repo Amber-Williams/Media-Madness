@@ -33,3 +33,9 @@ docker-compose up
 port number can be changed in the package.json "start"
 
 Now you will see a blank page at `http://localhost:[port]`, to see the user page go to `http://localhost:3001/user` and to see the central screen page go to `http://localhost:3001/central`
+
+
+
+When uploading to production REMOVE PORT=3001 from client/package.json
+&&
+change App.js commented out line
