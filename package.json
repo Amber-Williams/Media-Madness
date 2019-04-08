@@ -1,0 +1,20 @@
+{
+  "name": "y",
+  "version": "1.0.0",
+  "description": "<div align=\"center\"><img width=\"300px\" src=\"./client/src/img/MM-logo.png\"/></div>",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "heroku-postbuild": "cd client && docker-compose up"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Amber-Williams/Media-Madness.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Amber-Williams/Media-Madness/issues"
+  },
+  "homepage": "https://github.com/Amber-Williams/Media-Madness#readme"
+}
