@@ -19,14 +19,16 @@ export default class Login extends Component {
 
   render() {
     return (
-      <div className="loginContainer">
-        <img className="logo" src={logo}/>
-        <form action="">
-          <input className="whiteInput toUpperCase" id="roomCodeIs" placeholder="ROOMCODE" autoComplete="off" />
-          <input className="whiteInput toUpperCase" id="userIs" placeholder="NICKNAME" autoComplete="off" />
-          <button className="blackButton" onClick={this.userLogged.bind(this)}>Submit</button>
-          <p> {this.props.error} </p>
-        </form>
+      <div className="loginBackground">
+        <div className="loginContainer">
+          <img className="logo" src={logo}/>
+          <form action="">
+            <input className="whiteInput toUpperCase" id="roomCodeIs" placeholder="ROOMCODE" autoComplete="off" />
+            <input className="whiteInput toUpperCase" id="userIs" placeholder="NICKNAME" autoComplete="off" />
+            <button className="blackButton" onClick={this.userLogged.bind(this)}>Submit</button>
+            <p> {this.props.error} </p>
+          </form>
+        </div>
       </div>
     )
   }
