@@ -4,25 +4,30 @@
 
 Clone the git repository that holds the front and back end files.
 
-Backend steps:
+#### Back-end steps:
 
 1) Go into the media madness server folder and run
 
 ```
-npm install
+docker-compose up
 ```
 
-To install the node module files
-
-2) Be sure you have mongod installed on your system (install it using the following command in your terminal `brew install mongodb ` ) then run the next three following commands in three seprate terminal windows and let them continue to run until you want to close development
+2) (Optional) If you wish to have a database locally, be sure you have mongod installed on your system (install it using the following command in your terminal `brew install mongodb ` ) then run the next three following commands in three seprate terminal windows and let them continue to run until you want to close development
 
 ```
 mongod
 mongo
-npx nodemon
 ```
 
-Now your back end is set up! Now for the front end...
+3. (Optional) If you want to run the server without docker run the following compand:
+
+4. ```
+   npx nodemon
+   ```
+
+Now your back end is set up! 
+
+#### Front-end steps
 
 1) Go into the media madness client folder and run 
 
@@ -36,6 +41,8 @@ Now you will see a blank page at `http://localhost:[port]`, to see the user page
 
 
 
+#### Deployment steps: 
+
 When uploading to production REMOVE PORT=3001 from client/package.json
 &&
-change App.js commented out line
+Change App.js commented out line

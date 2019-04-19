@@ -79,6 +79,7 @@
 
 .startGameContainer h1 {
   font-weight: normal;
+  margin-right: 50px;
 }
 
 .startGameContainer h2 {
@@ -93,4 +94,20 @@
 
 .centralApp h3 {
   letter-spacing: 1px;
+}
+
+.roomCodeContainer {
+  position:relative;
+}
+.roomCodeContainer img{
+  position: absolute;
+  top: -21px;
+  left: -33px;
+  height: 4em;
+}
+
+.roomCodeContainer h2{
+  position: absolute;
+  top: 0;
+  left: 0;
 }
