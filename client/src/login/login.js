@@ -12,8 +12,9 @@ export default class Login extends Component {
     const username = document.getElementById('userIs').value.toUpperCase();
     const roomCode = document.getElementById('roomCodeIs').value.toUpperCase();
     if(username.length > 0){
+      sessionStorage.setItem('loggedIn', `${username}:${roomCode}`);
+      sessionStorage.setItem('userStage', `1`);
       this.props.emitUser(username, roomCode);
-      this.props.history.push('/user')
     }
   }
 

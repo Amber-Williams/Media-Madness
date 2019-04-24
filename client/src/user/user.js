@@ -53,6 +53,7 @@ export default class User extends Component {
 
 
   render() {
+     console.log(sessionStorage.getItem('userStage'));
      
     if (this.props.userStage === 6) {
       return (
