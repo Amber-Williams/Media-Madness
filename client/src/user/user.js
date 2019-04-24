@@ -53,9 +53,9 @@ export default class User extends Component {
 
 
   render() {
-     console.log(sessionStorage.getItem('userStage'));
-     
+    console.log('rendering')
     if (this.props.userStage === 6) {
+      console.log(sessionStorage.getItem('userStage'));
       return (
         <EndGame
         startGameFunc={this.props.startGameFunc}
@@ -64,12 +64,14 @@ export default class User extends Component {
     }
 
     else if (this.props.userStage === 5) {
+      console.log(sessionStorage.getItem('userStage'));
       return (
         <WaitingVotes/>
       )
     }
   
     else if (this.props.userStage === 4) {
+      console.log(sessionStorage.getItem('userStage'));
       return (
         <Voting 
         vote={this.props.vote}
@@ -81,12 +83,14 @@ export default class User extends Component {
     }
 
     else if (this.props.userStage === 3) {
+      console.log(sessionStorage.getItem('userStage'));
       return (
         <WaitingSubmit/>
       )
     }
     
     else if (this.props.userStage === 2) {
+      console.log(sessionStorage.getItem('userStage'));
       return (
         <div className='userContainer'>
           <h1>{this.props.question}</h1>
@@ -96,7 +100,7 @@ export default class User extends Component {
             <button className="blackButton" onClick={this.searchGif.bind(this)}>Search</button>
           </form>
             <div className={this.state.submittedGif === '' ? "gifContainer" : ""}>
-              < ListGifs 
+              <ListGifs 
                 handleGif={this.handleGif}
                 searchedGif={this.state.searchedGif} 
                 />
@@ -109,6 +113,7 @@ export default class User extends Component {
       )
     }
     else {
+      console.log(sessionStorage.getItem('userStage'));
       return (
        <WaitingGameStarted/>
       )
