@@ -87,23 +87,25 @@ export default class User extends Component {
     
     else if (this.props.userStage === 2) {
       return (
-        <div className='userContainer'>
-          <h1>{this.props.question}</h1>
-          Gif search bar:
-          <form action="">
-            <input className="whiteInput" id="searched" placeholder="SEARCH GIFS" autoComplete="off" />
-            <button className="blackButton" onClick={this.searchGif.bind(this)}>Search</button>
-          </form>
-            <div className={this.state.submittedGif === '' ? "gifContainer" : ""}>
-              < ListGifs 
-                handleGif={this.handleGif}
-                searchedGif={this.state.searchedGif} 
-                />
-            </div>
-            <div className="submittedGif">
-              {this.state.submittedGif}
-              {this.state.summitButton}
-            </div>
+        <div className='userBackground'>
+          <div className='userContainer'>
+            <h1>{this.props.question}</h1>
+            Gif search bar:
+            <form action="">
+              <input className="whiteInput" id="searched" placeholder="SEARCH GIFS" autoComplete="off" />
+              <button className="blackButton" onClick={this.searchGif.bind(this)}>Search</button>
+            </form>
+              <div className={this.state.submittedGif === '' ? "gifContainer" : ""}>
+                < ListGifs 
+                  handleGif={this.handleGif}
+                  searchedGif={this.state.searchedGif} 
+                  />
+              </div>
+              <div className="submittedGif">
+                {this.state.submittedGif}
+                {this.state.summitButton}
+              </div>
+          </div>
         </div>
       )
     }

@@ -16,6 +16,7 @@ export default class Voting extends Component {
     )
     
     return (
+      <div className='userBackground'>
         <div className='userContainer'>
           <h4>Vote on your favorite answer:</h4>
           <div className='gifContainer'>
@@ -24,6 +25,7 @@ export default class Voting extends Component {
             </div>
           </div>
         </div>
+      </div>
     )
   }
 }
