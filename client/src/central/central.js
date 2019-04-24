@@ -9,7 +9,6 @@ import VoteResults from './vote-results/vote-results';
 export default class Central extends Component {
 
   render() {
-
     let users = (<h3>NO ONE HAS JOINED</h3>);
     if (this.props.users.length > 0) {
       users = this.props.users
