@@ -15,7 +15,6 @@
   list-style: none;
 }
 
-
 .centralApp h1 {
   font-size: 1.5rem;
 }
@@ -29,7 +28,6 @@
   flex-flow: row wrap;
   justify-content: center;
 }
-
 
 .resultsListContainerVotes {
   display: flex;
@@ -48,8 +46,6 @@
 .resultContainer {
   position: relative;
 }
-
-
 
 .resultContainer img {
   width: 300px;
@@ -75,3 +71,43 @@
   padding: 5px 10px;
 }
 
+.startGameContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.startGameContainer h1 {
+  font-weight: normal;
+  margin-right: 50px;
+}
+
+.startGameContainer h2 {
+  margin: 0 10px;
+}
+
+.logo--central {
+  width: 30%;
+  margin: 0 auto;
+  padding-bottom: 50px;
+}
+
+.centralApp h3 {
+  letter-spacing: 1px;
+}
+
+.roomCodeContainer {
+  position:relative;
+}
+.roomCodeContainer img{
+  position: absolute;
+  top: -21px;
+  left: -33px;
+  height: 4em;
+}
+
+.roomCodeContainer h2{
+  position: absolute;
+  top: 0;
+  left: 0;
+}
