@@ -43,6 +43,9 @@ Now you will see a blank page at `http://localhost:[port]`, to see the user page
 
 #### Deployment steps: 
 
-When uploading to production REMOVE PORT=3001 from client/package.json
-&&
-Change App.js commented out line
+1. When uploading to production REMOVE PORT=3001 from start script in client/package.json
+2. Change App.js commented out line
+3. heroku container:login
+   heroku container:push web --app mediamadness-client
+   heroku container:release web --app mediamadness-client
+   heroku open --app mediamadness-client

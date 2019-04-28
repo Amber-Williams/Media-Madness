@@ -1,4 +1,4 @@
-.userContainer {
+.userBackground {
   background: #3498DB;
   background: linear-gradient(0deg, rgba(12,65,101,1) 0%, rgba(63,176,252,1) 34%);
   height:100vh;
@@ -7,6 +7,15 @@
   justify-content: center;
   text-align: center;
   color:white;
+}
+
+.userContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 500px;
+  margin: 0 auto;
+  padding-top: 14vh;
 }
 
 .userContainer h1 {
