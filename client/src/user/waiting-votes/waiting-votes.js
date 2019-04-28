@@ -7,7 +7,7 @@ export default class WaitingVotes extends Component {
       return (
         <div className='userContainer'>
           <h4>Waiting for other players to submit votes...</h4>
-          <QuitBtn/>
+          {/* <QuitBtn/> */}
         </div>
     )
   }
