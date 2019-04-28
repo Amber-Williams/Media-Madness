@@ -31,15 +31,14 @@ export default class User extends Component {
     this.props.emitMessage(selectedGif);
     this.clearSearch()
   }
-
   
   searchGif (event){
     event.preventDefault();
     let searched = document.getElementById('searched').value;
-    fetch(`http://api.giphy.com/v1/gifs/search?api_key=rXTPJIC2ki2w3TA8aKiev8EkK8U1G3KT&q=${searched}`)
+    fetch(`http://api.giphy.com/v1/gifs/search?api_key=${process.env.REACT_APP_GIPHY_API}&q=${searched}`)
     .then(response => response.json())
     .then(data => this.setState ({
-       searchedGif: data
+      searchedGif: data
     }));
   }
   
@@ -51,44 +50,29 @@ export default class User extends Component {
     })
   }
 
-
-  render() {
-     
-    if (this.props.userStage === 6) {
-      return (
-        <EndGame
-        startGameFunc={this.props.startGameFunc}
-        />
-      )
-    }
-
-    else if (this.props.userStage === 5) {
-      return (
-        <WaitingVotes/>
-      )
-    }
-  
-    else if (this.props.userStage === 4) {
-      return (
-        <Voting 
+  renderScreen(){
+    switch(this.props.userStage) {
+      case 6: 
+        return <EndGame startGameFunc={this.props.startGameFunc}/>
+        break;
+      case 5:
+        return <WaitingVotes/>
+        break;
+      case 4:
+        return <Voting 
         vote={this.props.vote}
         messages={this.props.messages}
         username={this.props.username}
         currentRound={this.props.currentRound}
         />
-      )
-    }
-
-    else if (this.props.userStage === 3) {
-      return (
-        <WaitingSubmit/>
-      )
-    }
-    
-    else if (this.props.userStage === 2) {
-      return (
-        <div className='userBackground'>
-          <div className='userContainer'>
+        break;
+      case 3:
+        return <WaitingSubmit/>
+        break;
+      case 2:
+        return (
+          <div className='userBackground'>
+            <div className='userContainer'>
             <h1>{this.props.question}</h1>
             Gif search bar:
             <form action="">
@@ -96,9 +80,9 @@ export default class User extends Component {
               <button className="blackButton" onClick={this.searchGif.bind(this)}>Search</button>
             </form>
               <div className={this.state.submittedGif === '' ? "gifContainer" : ""}>
-                < ListGifs 
+                <ListGifs
                   handleGif={this.handleGif}
-                  searchedGif={this.state.searchedGif} 
+                  searchedGif={this.state.searchedGif}
                   />
               </div>
               <div className="submittedGif">
@@ -107,13 +91,15 @@ export default class User extends Component {
               </div>
           </div>
         </div>
-      )
-    }
-    else {
-      return (
-       <WaitingGameStarted/>
-      )
+        )
+      default:
+        return <WaitingGameStarted/>
     }
   }
 
+  render() {
+    return (
+      <div>{this.renderScreen()}</div>
+    )
+  }
 }

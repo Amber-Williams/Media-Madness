@@ -25,7 +25,7 @@ class App extends Component {
       question: '',
       users: [],
       votes: [],
-      userStage: 1,
+      userStage: Number(sessionStorage.getItem('userStage')) || 1,
       centralStage: 1,
       currentRound: 0,
       error: ''
@@ -55,11 +55,12 @@ class App extends Component {
     socket.on('game started', (question) => {
       this.setState({
         question: <Markup content={question} />,
-        userStage:2,
+        userStage: 2,
         centralStage: 2,
         currentRound: this.state.currentRound + 1
       })
-      //need to make log in user disabled on game start to avoid users joining in middle of game
+      sessionStorage.setItem('userStage', `2`);
+      //TTD: need to make log in user disabled on game start to avoid users joining in middle of game
     })
 
     socket.on('chat message content', (username, message, round) => {
@@ -73,6 +74,7 @@ class App extends Component {
         userStage: 4,
         centralStage: 3
       })
+      sessionStorage.setItem('userStage', `4`);
     })
 
     socket.on('show votes', (votes) => {
@@ -81,6 +83,7 @@ class App extends Component {
         userStage: 6,
         centralStage: 4
       })
+      sessionStorage.setItem('userStage', `6`);
     })
     socket.on('room code does not exist', () => {
       this.setState({
@@ -91,6 +94,7 @@ class App extends Component {
   }
   
   startGameFunc = () => {
+    sessionStorage.setItem('userStage', `1`);
     socket.emit('start game', this.state.roomCode);
   }
 
@@ -99,6 +103,7 @@ class App extends Component {
     this.setState({
       userStage: 3
     })
+    sessionStorage.setItem('userStage', `3`);
   }
 
   emitUser = (user, roomCode) => {
@@ -116,44 +121,35 @@ class App extends Component {
     this.setState({
       userStage: 5
     })
+    sessionStorage.setItem('userStage', `5`);
   }
 
   render() {
-    if (this.state.username !== ''){
+    console.log('session', sessionStorage.getItem('userStage'), 'state.user', this.state.userStage)
       return (
         <Router>
           <div>
             <Route 
-              path={'/user'}
-              render={ (props) => <User {...props} 
-                userStage={this.state.userStage}
-                emitMessage={this.emitMessage}
-                question={this.state.question}
-                messages={this.state.messages}
-                vote={this.voteMessage}
-                username={this.state.username}
-                startGameFunc={this.startGameFunc}
-                currentRound={this.state.currentRound}
-                /> }
-              />
-          </div>
-        </Router>
-      );
-    } 
-
-    else {
-      
-      return (
-        <Router>
-          <div>
-            <Route 
-              path='/user'
+              exact path='/'
               render={ (props) => <Login {...props} 
-                emitUser={this.emitUser} 
-                user={this.state.username} 
+                emitUser={this.emitUser}
+                user={this.state.username}
                 error={this.state.error}
                 /> }
               />
+            <Route 
+            path={'/user'}
+            render={ (props) => <User {...props} 
+              userStage={this.state.userStage}
+              emitMessage={this.emitMessage}
+              question={this.state.question}
+              messages={this.state.messages}
+              vote={this.voteMessage}
+              username={this.state.username}
+              startGameFunc={this.startGameFunc}
+              currentRound={this.state.currentRound}
+              /> }
+            />
             <Route 
               path={'/central'}
               render={ (props) => <Central {...props} 
@@ -170,8 +166,6 @@ class App extends Component {
           </div>
         </Router>
       )
-    }
-
   }
 }
 
