@@ -70,7 +70,9 @@ export default class User extends Component {
         return <WaitingSubmit/>
         break;
       case 2:
-        return (<div className='userContainer'>
+        return (
+          <div className='userBackground'>
+            <div className='userContainer'>
             <h1>{this.props.question}</h1>
             Gif search bar:
             <form action="">
@@ -88,6 +90,7 @@ export default class User extends Component {
                 {this.state.summitButton}
               </div>
           </div>
+        </div>
         )
       default:
         return <WaitingGameStarted/>
