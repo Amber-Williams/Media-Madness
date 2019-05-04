@@ -11,7 +11,7 @@ export default class EndGame extends Component {
           <img className="logo" src={logo}/>
           <button className="blackButton" onClick={this.props.startGameFunc}>Play again with same players</button>
           <br/>
-          <button className="blackButton">New Players</button>
+          <button className="blackButton" onClick={this.props.startNewGameFunc}>New Players</button>
         </div>
       </div>
     )

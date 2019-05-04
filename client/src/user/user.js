@@ -50,10 +50,15 @@ export default class User extends Component {
     })
   }
 
+  startNewGameFunc = () => {
+    sessionStorage.setItem('userStage', `1`);
+    this.props.history.push('/')
+  }
+
   renderScreen(){
     switch(this.props.userStage) {
       case 6: 
-        return <EndGame startGameFunc={this.props.startGameFunc}/>
+        return <EndGame startNewGameFunc={this.startNewGameFunc} startGameFunc={this.props.startGameFunc}/>
         break;
       case 5:
         return <WaitingVotes/>
