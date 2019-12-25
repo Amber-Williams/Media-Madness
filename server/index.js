@@ -13,6 +13,7 @@ let activeRooms = [];
 let appUserCount = 0;
 
 io.on('connection', (socket) => {
+  console.log('Socket connection started')
   appUserCount++;
   let roomId = methods.generateRoomId();
   socket.join("room-"+roomId);
@@ -28,11 +29,12 @@ io.on('connection', (socket) => {
   io.sockets.in("room-"+roomId).emit('game room code', roomId);
 
 
-  socket.on('start over', () =>{ 
+  socket.on('start over', () =>{
     // need to add start over function here
   })
 
   socket.on('login', async (user, roomIdEntered) => {
+    console.log('User logged in')
     const currentRoom = activeRooms.find(room => room.roomId === roomIdEntered)
     if (currentRoom) {
       currentRoom.userCount++;
@@ -47,6 +49,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('start game', (roomId) => {
+    console.log('Game started')
     const currentRoom = activeRooms.find(room => room.roomId === roomId);
     if (currentRoom) {
       currentRoom.round++;
@@ -58,29 +61,32 @@ io.on('connection', (socket) => {
   });
 
   socket.on('chat message', (user, msg, roomId) => {
+    console.log('chat message recieved')
     const currentRoom = activeRooms.find(room => room.roomId === roomId);
     if (currentRoom) {
       io.sockets.in("room-"+roomId).emit('chat message content', user, msg, currentRoom.round);
       methods.play(user, msg.images.fixed_height.url, currentRoom.round, currentRoom.question, roomId);
       currentRoom.submittedCount++;
-      if (currentRoom.submittedCount >= currentRoom.userCount) {  
+      if (currentRoom.submittedCount >= currentRoom.userCount) {
         io.sockets.in("room-"+roomId).emit('submitted a round');
       }
     }
   });
 
   socket.on('user voted',  async (owner, play, voter, round, roomId) => {
+    console.log('user voted')
     const currentRoom = activeRooms.find(room => room.roomId === roomId);
     if (currentRoom) {
       currentRoom.voteCount++;
       await methods.playVote(owner, play, voter, round, roomId);
-      if (currentRoom.voteCount >= currentRoom.userCount) { 
+      if (currentRoom.voteCount >= currentRoom.userCount) {
         io.sockets.in("room-"+roomId).emit('show votes',  await methods.loggedPlays(roomId) );
-      } 
+      }
     }
   });
 
   socket.on('disconnect', () => {
+    console.log('user disconnected')
     appUserCount--;
     if(appUserCount <= 0){
       methods.empty();
