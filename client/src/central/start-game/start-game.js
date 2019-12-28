@@ -12,9 +12,9 @@ export default class StartGame extends Component {
             <h1>Room Code is:</h1>
             <div className="roomCodeContainer">
               <img src={roomCodeOutline}/>
-              <h2>{this.props.roomCode}</h2>
+              <h2 id="roomCodeId">{this.props.roomCode}</h2>
             </div>
-            
+
           </div>
 
         <ul>

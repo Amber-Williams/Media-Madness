@@ -22,7 +22,6 @@ export default class Login extends Component {
       <div className="loginBackground">
         <div className="loginContainer">
           <img className="logo" src={logo}/>
-          <h1>test commit</h1>
           <form action="">
             <input className="whiteInput toUpperCase" id="roomCodeIs" placeholder="ROOMCODE" autoComplete="off" />
             <input className="whiteInput toUpperCase" id="userIs" placeholder="NICKNAME" autoComplete="off" />
