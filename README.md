@@ -33,3 +33,7 @@ Now you will see a blank page at `http://localhost:[port]`, to see the user page
 When uploading to production REMOVE PORT=3001 from client/package.json
 &&
 Change App.js commented out line
+
+
+#### Testing steps
+1. To run tests cd into the client folder and run `yarn test` this will run end to end Selenium tests that are located in the test folder
