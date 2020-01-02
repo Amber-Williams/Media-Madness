@@ -40,12 +40,27 @@ io.on('connection', (socket) => {
       currentRoom.userCount++;
       await methods.logUser(user, socket.id, roomIdEntered);
       socket.join("room-"+roomIdEntered);
-      io.sockets.connected[socket.id].emit('personal login user', socket.id, user);
+      io.sockets.connected[socket.id].emit('personal login user', user, socket.id, roomIdEntered);
       io.sockets.in("room-"+roomIdEntered).emit('global users', await methods.loggedUsers(roomIdEntered), roomIdEntered);
     } else {
       io.sockets.connected[socket.id].emit('room code does not exist');
     }
     //TTD add function here to remove user generated roomId from active rooms ...ifCurrentRoom.userCount <=0 ...delete
+  });
+
+  socket.on('Does room still exist? If so update with new socketID and rejoin', async (roomID, username) => {
+    //relogin user on reload
+    const loggedUser = await methods.loggedUser(roomID, username, socket.id)
+    if (loggedUser === 'Room or user does not exist anymore'){
+      socket.emit('remove localStorage userLogInfo')
+    } else {
+      const userLogInfo = {
+        username,
+        'socketID': socket.id,
+        roomID
+      }
+      socket.emit('update localStorage userLogInfo', userLogInfo)
+    }
   });
 
   socket.on('start game', (roomId) => {

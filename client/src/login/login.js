@@ -7,6 +7,13 @@ export default class Login extends Component {
     errorStyle:''
   }
 
+  componentWillMount() {
+    if (localStorage.getItem('userLogInfo')) {
+      const userInfo = JSON.parse(localStorage.getItem('userLogInfo'))
+      this.props.reLoginUserOnReload(userInfo);
+    }
+  }
+
   userLogged(event){
     event.preventDefault();
     const username = document.getElementById('userIs').value.toUpperCase();
@@ -16,6 +23,7 @@ export default class Login extends Component {
       this.props.history.push('/user')
     }
   }
+
 
   render() {
     return (

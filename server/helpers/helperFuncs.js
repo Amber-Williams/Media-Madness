@@ -16,6 +16,19 @@ const logUser = async (username, socketId, roomId) => {
   }
 }
 
+const loggedUser = async (roomId, username, socketId) => {
+  try {
+    const userLog = await UserLog.collection.findOneAndUpdate(
+      {'roomId': roomId, 'username': username},
+      { $set: { 'socketId': socketId }}
+    );
+    if (!userLog.value) return 'Room or user does not exist anymore'
+    else return userLog;
+  } catch(e) {
+    throw new Error(`An error occurred while getting logged user: ${e}`);
+  }
+}
+
 const loggedUsers = async (roomId) => {
   try {
     const userLog = await UserLog.collection.find({'roomId': roomId}).toArray();
@@ -74,8 +87,7 @@ const empty = async () => {
 }
 
 const generateQuestion = () => {
-  const filteredPickOne = questionData.blackCards
-  .filter(quest => {
+  const filteredPickOne = questionData.blackCards.filter(quest => {
     if(quest.pick === 1){
       return quest;
     }
@@ -84,6 +96,7 @@ const generateQuestion = () => {
 
   return question.text;
 }
+
 const generateRoomId = () => {
   const alp = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const code = [];
@@ -98,6 +111,7 @@ module.exports = {
   play,
   empty,
   generateQuestion,
+  loggedUser,
   loggedUsers,
   playVote,
   loggedPlays,

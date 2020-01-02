@@ -37,14 +37,25 @@ class App extends Component {
       });
     })
 
-    socket.on('personal login user', (id, username) => {
+    socket.on('personal login user', (username, socketID, roomID) => {
       this.setState({
         username
       });
-      localStorage.setItem('socketId', id) //will need to store these into per game room in a database table so person can rejoin room on disconnection
+      const userLogInfo = {username, socketID, roomID}
+      localStorage.setItem('userLogInfo', JSON.stringify(userLogInfo) )
     })
 
-  
+    socket.on('remove localStorage userLogInfo', () => {
+      localStorage.removeItem('userLogInfo')
+    })
+
+    socket.on('update localStorage userLogInfo', (userLogInfo) => {
+      this.setState({
+        username: userLogInfo.username
+      });
+      localStorage.setItem('userLogInfo', JSON.stringify(userLogInfo) )
+    })
+
     socket.on('global users', (users, roomCode) => {
       this.setState({
         users,
@@ -89,7 +100,7 @@ class App extends Component {
     })
 
   }
-  
+
   startGameFunc = () => {
     socket.emit('start game', this.state.roomCode);
   }
@@ -118,14 +129,18 @@ class App extends Component {
     })
   }
 
+  reLoginUserOnReload = ({username, socketID, roomID}) => {
+    socket.emit('Does room still exist? If so update with new socketID and rejoin', roomID, username);
+  }
+
   render() {
     if (this.state.username !== ''){
       return (
         <Router>
           <div>
-            <Route 
+            <Route
               path={'/user'}
-              render={ (props) => <User {...props} 
+              render={ (props) => <User {...props}
                 userStage={this.state.userStage}
                 emitMessage={this.emitMessage}
                 question={this.state.question}
@@ -139,24 +154,22 @@ class App extends Component {
           </div>
         </Router>
       );
-    } 
-
-    else {
-      
+    } else {
       return (
         <Router>
           <div>
-            <Route 
+            <Route
               path='/user'
-              render={ (props) => <Login {...props} 
-                emitUser={this.emitUser} 
-                user={this.state.username} 
+              render={ (props) => <Login {...props}
+                emitUser={this.emitUser}
+                user={this.state.username}
                 error={this.state.error}
+                reLoginUserOnReload={this.reLoginUserOnReload}
                 /> }
               />
-            <Route 
+            <Route
               path={'/central'}
-              render={ (props) => <Central {...props} 
+              render={ (props) => <Central {...props}
                 roomCode={this.state.roomCode}
                 messages={this.state.messages}
                 question={this.state.question}
