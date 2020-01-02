@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './login.css';
 import logo from './../img/MM-logo.png';
+import socket from './../socket/socket';
 
 export default class Login extends Component {
   state = {
@@ -10,7 +11,7 @@ export default class Login extends Component {
   componentWillMount() {
     if (localStorage.getItem('userLogInfo')) {
       const userInfo = JSON.parse(localStorage.getItem('userLogInfo'))
-      this.props.reLoginUserOnReload(userInfo);
+      socket.emit('Does room still exist? If so update with new socketID and rejoin', userInfo);
     }
   }
 

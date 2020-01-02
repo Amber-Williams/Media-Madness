@@ -4,15 +4,9 @@ import User from './user/user';
 import Central from './central/central';
 import Login from './login/login';
 import { Markup } from 'interweave';
-
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import methods from './helpers/helperFuncs';
-
-import openSocket from 'socket.io-client';
-// const socket = openSocket(process.env.REACT_APP_SERVER_URL || 'http://localhost:3000'); //PRODUCTION
-const socket = openSocket('http://localhost:3000'); //DEVELOPMENT
-
+import socket from './socket/socket';
 
 class App extends Component {
   constructor (){
@@ -30,8 +24,10 @@ class App extends Component {
       currentRound: 0,
       error: ''
     }
+  }
 
-    socket.on('game room code', (roomCode) =>{
+  componentDidMount() {
+    socket.on('game room code', (roomCode) => {
       this.setState({
         roomCode
       });
@@ -98,7 +94,6 @@ class App extends Component {
         error: 'Room code does not exist'
       })
     })
-
   }
 
   startGameFunc = () => {
@@ -127,10 +122,6 @@ class App extends Component {
     this.setState({
       userStage: 5
     })
-  }
-
-  reLoginUserOnReload = ({username, socketID, roomID}) => {
-    socket.emit('Does room still exist? If so update with new socketID and rejoin', roomID, username);
   }
 
   render() {

@@ -48,7 +48,7 @@ io.on('connection', (socket) => {
     //TTD add function here to remove user generated roomId from active rooms ...ifCurrentRoom.userCount <=0 ...delete
   });
 
-  socket.on('Does room still exist? If so update with new socketID and rejoin', async (roomID, username) => {
+  socket.on('Does room still exist? If so update with new socketID and rejoin', async ({roomID, username}) => {
     //relogin user on reload
     const loggedUser = await methods.loggedUser(roomID, username, socket.id)
     if (loggedUser === 'Room or user does not exist anymore'){
