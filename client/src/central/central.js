@@ -12,14 +12,14 @@ export default class Central extends Component {
     let users = (<h3>NO ONE HAS JOINED</h3>);
     if (this.props.users.length > 0) {
       users = this.props.users
-        .map((user,key) => 
-        <li  key={key}> 
+        .map((user,key) =>
+        <li  key={key}>
           <h3 className="whiteInput">{user.username}</h3>
         </li>
         )
     }
 
-    if (this.props.centralStage === 4) {
+    if (this.props.screenStageStatus[1] === 4) {
       return (
         <VoteResults
         votes={this.props.votes}
@@ -29,7 +29,7 @@ export default class Central extends Component {
       )
     }
 
-    else if (this.props.centralStage === 3) {
+    else if (this.props.screenStageStatus[1] === 3) {
       return (
         <Vote
         question={this.props.question}
@@ -40,18 +40,18 @@ export default class Central extends Component {
       )
     }
 
-    else if (this.props.centralStage === 2) {
+    else if (this.props.screenStageStatus[1] === 2) {
       return (
         <StartRoundQuestion
         question={this.props.question}
         users={users}
         />
       )
-    } 
+    }
 
     else {
       return (
-        <StartGame 
+        <StartGame
         roomCode={this.props.roomCode}
         startGameFunc={this.props.startGameFunc}
         users={users}

@@ -41,7 +41,7 @@ def main():
 
         # Both select what gif they like
         select_gif(driver1)
-        select_gif(driver2)
+        # select_gif(driver2)
 
         # time.sleep(2)
 
