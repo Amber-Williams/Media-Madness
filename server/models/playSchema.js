@@ -2,10 +2,13 @@ const mongoose = require('mongoose');
 
 
 //Schema doesn't matter when posting to the database..need to debug
-const playSchema = mongoose.Schema({
+const playSchema = new mongoose.Schema({
+    question: String,
     user: String,
     gif: String,
-    round: Number
+    round: Number,
+    votes: Array,
+    roomId: String
 });
 //Would like to implement time it took to select to create more robost scoring
 

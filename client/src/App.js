@@ -50,9 +50,10 @@ class App extends Component {
 
     socket.on('update localStorage userLogInfo', (userLogInfo) => {
       this.setState({
-        username: userLogInfo.username
+        username: userLogInfo.username,
+        roomCode:  userLogInfo.roomID
       });
-      localStorage.setItem('userLogInfo', JSON.stringify(userLogInfo) )
+      localStorage.setItem('userLogInfo', JSON.stringify(userLogInfo))
     })
 
     socket.on('global users', (users, roomCode) => {

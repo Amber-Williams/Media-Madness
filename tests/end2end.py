@@ -9,6 +9,7 @@ import time
 
 def main():
     try:
+        print("E2E TEST STARTED")
         options = Options()
         options.headless = False
         options.add_experimental_option("detach", True)
@@ -16,6 +17,7 @@ def main():
         driver1 = webdriver.Chrome(ChromeDriverManager().install(), options=options)
         driver2 = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
+        print("Drivers created")
         # Pulls up central screen and gets room code
         url_central = "http://localhost:3001/central"
         driver0.get(url_central)
@@ -23,31 +25,44 @@ def main():
             EC.element_to_be_clickable((By.ID, "roomCodeId"))
         )
         room_code_id = room_code.text
-        print(f'{room_code_id}')
+        print(f'Room is: {room_code_id}')
 
         # Pulls up both users and submits to both to same room
         log_in_user(driver1, room_code_id, '1')
         log_in_user(driver2, room_code_id, '2')
+        print('Logged in both users into room')
 
+        time.sleep(2)
         # Starts game from central screen
         start_game = WebDriverWait(driver0, 5).until(
             EC.element_to_be_clickable((By.XPATH, "//button[contains(text(),'Start Game')]"))
         )
         start_game.click()
+        print('Game started')
 
+        
         # Both users submit answer
         submit_answer(driver1, "homer")
         submit_answer(driver2, "bart")
+        print('Submitted answers')
+        
 
         # Both select what gif they like
-        select_gif(driver1)
-        # select_gif(driver2)
+        select_winner(driver1)
+        select_winner(driver2)
+        print('Selected winner')
 
-        # time.sleep(2)
-
-        print("Passed")
+        print("PASSED")
+        driver0.close()
+        driver1.close()
+        driver2.close()
+        print('Drivers closed')
     except:
-        print("Failed")
+        print("FAILED")
+        driver0.close()
+        driver1.close()
+        driver2.close()
+        print('Drivers closed')
 
 def log_in_user(driver, room_code_id, num):
     url_user = "http://localhost:3001/user"
@@ -82,7 +97,7 @@ def submit_answer(driver, search_term):
     )
     submit_search_term.click()
 
-    select_gif = WebDriverWait(driver, 5).until(
+    select_gif = WebDriverWait(driver, 30).until(
         EC.element_to_be_clickable((By.XPATH, "//div[@class='gifsLoaded']/ul/li/img[1]"))
     )
     select_gif.click()
@@ -92,11 +107,11 @@ def submit_answer(driver, search_term):
     )
     submit.click()
 
-def select_gif(driver):
-    select_gif = WebDriverWait(driver, 5).until(
+def select_winner(driver):
+    select_winner = WebDriverWait(driver, 30).until(
         EC.element_to_be_clickable((By.XPATH, "//div[@class='gifsLoaded']/ul/li/img[1]"))
     )
-    select_gif.click()
+    select_winner.click()
 
 
 if __name__ == '__main__':
