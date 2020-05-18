@@ -1,7 +1,7 @@
 const app = require('express')();
 const server = require('http').Server(app)
 const io = require('socket.io')(server);
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const methods = require('./helpers/helperFuncs');
@@ -102,5 +102,6 @@ io.on('connection', async (socket) => {
   });
 });
 
+console.log('server on port:', port)
 server.listen(port);
 

@@ -17,4 +17,4 @@ COPY . .
 CMD [ "npm", "start" ];
 
 # Expose the port
-EXPOSE 3000
+EXPOSE 5000

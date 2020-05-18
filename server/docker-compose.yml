@@ -8,5 +8,5 @@ services:
      - './:/server'
      - '/server/node_modules'
     ports:
-     - '3000:3000'
+     - '5000:5000'
     container_name: MediaMadness-Server
