@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
 import './login.css';
 import logo from './../img/MM-logo.png';
+import socket from './../socket/socket';
 
 export default class Login extends Component {
   state = {
     errorStyle:''
+  }
+
+  componentWillMount() {
+    if (localStorage.getItem('userLogInfo')) {
+      const userInfo = JSON.parse(localStorage.getItem('userLogInfo'))
+      socket.emit('Does room still exist? If so update with new socketID and rejoin', userInfo);
+    }
   }
 
   userLogged(event){
@@ -17,12 +25,12 @@ export default class Login extends Component {
     }
   }
 
+
   render() {
     return (
       <div className="loginBackground">
         <div className="loginContainer">
           <img className="logo" src={logo}/>
-          <h1>test commit</h1>
           <form action="">
             <input className="whiteInput toUpperCase" id="roomCodeIs" placeholder="ROOMCODE" autoComplete="off" />
             <input className="whiteInput toUpperCase" id="userIs" placeholder="NICKNAME" autoComplete="off" />

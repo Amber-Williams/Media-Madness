@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ListGifs from './../listGifs/listGifs';
-import './user.css'; 
+import './user.css';
 
 import WaitingGameStarted from './waiting-game-started/waiting-game-started';
 import EndGame from './end-user-game/end-game';
@@ -32,17 +32,17 @@ export default class User extends Component {
     this.clearSearch()
   }
 
-  
+
   searchGif (event){
     event.preventDefault();
     let searched = document.getElementById('searched').value;
-    fetch(`http://api.giphy.com/v1/gifs/search?api_key=rXTPJIC2ki2w3TA8aKiev8EkK8U1G3KT&q=${searched}`)
+    fetch(`https://api.giphy.com/v1/gifs/search?api_key=${process.env.REACT_APP_GIPHY_API}&q=${searched}`)
     .then(response => response.json())
     .then(data => this.setState ({
        searchedGif: data
     }));
   }
-  
+
   clearSearch(){
     this.setState({
       searchedGif: [],
@@ -53,8 +53,8 @@ export default class User extends Component {
 
 
   render() {
-     
-    if (this.props.userStage === 6) {
+    console.log('users.js', this.props.messages)
+    if (this.props.screenStageStatus[0] === 6) {
       return (
         <EndGame
         startGameFunc={this.props.startGameFunc}
@@ -62,15 +62,15 @@ export default class User extends Component {
       )
     }
 
-    else if (this.props.userStage === 5) {
+    else if (this.props.screenStageStatus[0] === 5) {
       return (
         <WaitingVotes/>
       )
     }
-  
-    else if (this.props.userStage === 4) {
+
+    else if (this.props.screenStageStatus[0] === 4) {
       return (
-        <Voting 
+        <Voting
         vote={this.props.vote}
         messages={this.props.messages}
         username={this.props.username}
@@ -79,13 +79,13 @@ export default class User extends Component {
       )
     }
 
-    else if (this.props.userStage === 3) {
+    else if (this.props.screenStageStatus[0] === 3) {
       return (
         <WaitingSubmit/>
       )
     }
-    
-    else if (this.props.userStage === 2) {
+
+    else if (this.props.screenStageStatus[0] === 2) {
       return (
         <div className='userContainer'>
           <h1>{this.props.question}</h1>
@@ -95,9 +95,9 @@ export default class User extends Component {
             <button className="blackButton" onClick={this.searchGif.bind(this)}>Search</button>
           </form>
             <div className={this.state.submittedGif === '' ? "gifContainer" : ""}>
-              < ListGifs 
+              < ListGifs
                 handleGif={this.handleGif}
-                searchedGif={this.state.searchedGif} 
+                searchedGif={this.state.searchedGif}
                 />
             </div>
             <div className="submittedGif">

@@ -1,22 +1,31 @@
 {
   "name": "media-madness-client",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "interweave": "^10.1.3",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
+    "react-redux": "^7.1.3",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.5",
-    "socket.io-client": "^2.2.0"
+    "react-scripts": "^3.4.1",
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-persist": "^6.0.0",
+    "redux-thunk": "^2.3.0",
+    "serve": "^11.3.0",
+    "socket.io-client": "^2.2.0",
+    "dotenv": "^8.2.0"
   },
   "scripts": {
-    "start": "PORT=3001 react-scripts start",
+    "dev": "react-scripts start",
+    "start": "serve -s build",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "heroku-postbuild": "npm run build",
+    "eject": "react-scripts eject",
+    "test": "python3 ./../tests/end2end.py"
   },
   "eslintConfig": {
     "extends": "react-app"

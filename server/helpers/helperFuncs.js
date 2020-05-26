@@ -1,6 +1,7 @@
 const db = require('./../db');
 const Play = require('./../models/playSchema');
 const UserLog = require('./../models/userLogSchema');
+const Room = require('./../models/roomSchema');
 const questionData = require('./questions.json');
 
 const logUser = async (username, socketId, roomId) => {
@@ -16,6 +17,19 @@ const logUser = async (username, socketId, roomId) => {
   }
 }
 
+const loggedUser = async (roomId, username, socketId) => {
+  try {
+    const userLog = await UserLog.collection.findOneAndUpdate(
+      {'roomId': roomId, 'username': username},
+      { $set: { 'socketId': socketId }}
+    );
+    if (!userLog.value) return 'Room or user does not exist anymore'
+    else return userLog;
+  } catch(e) {
+    throw new Error(`An error occurred while getting logged user: ${e}`);
+  }
+}
+
 const loggedUsers = async (roomId) => {
   try {
     const userLog = await UserLog.collection.find({'roomId': roomId}).toArray();
@@ -24,6 +38,95 @@ const loggedUsers = async (roomId) => {
     throw new Error(`An error occurred while getting logged users: ${e}`);
   }
 }
+
+const addRoom = async (roomId, socketIdOwner) => {
+  const room = {
+    roomId,
+    socketIdOwner: socketIdOwner,
+    userCount: 0,
+    submittedCount: 0,
+    voteCount: 0,
+    round: 0,
+    question: ''
+  }
+  try {
+    await Room.collection.insertOne(room)
+  } catch(e) {
+    throw new Error(`An error occurred while creating a room: ${e}`);
+  }
+}
+
+const removeRoom = async (roomId, socketIdOwner) => {
+  try {
+    await Room.collection.findOneAndDelete({'roomId': roomId, 'socketIdOwner': socketIdOwner});
+  } catch(e) {
+    throw new Error(`An error occurred while creating a room: ${e}`);
+  }
+}
+
+const incRoomUserCount = async (roomId) => {
+  try {
+    const room = await Room.collection.findOneAndUpdate(
+      {'roomId': roomId},
+      {$inc: {'userCount': 1}},
+      {returnOriginal:false}
+    );
+    return room.value;
+  } catch(e) {
+    throw new Error(`An error occurred while increasing room user count: ${e}`);
+  }
+}
+
+const incRoomSubmittedCount = async (roomId) => {
+  try {
+    const room = await Room.collection.findOneAndUpdate(
+      {'roomId': roomId},
+      {$inc: {'submittedCount': 1}},
+      {returnOriginal:false}
+    );
+    return room.value;
+  } catch(e) {
+    throw new Error(`An error occurred while increasing room user count: ${e}`);
+  }
+}
+const incRoomVoteCount = async (roomId) => {
+  try {
+    const room = await Room.collection.findOneAndUpdate(
+      {'roomId': roomId},
+      {$inc: {'voteCount': 1}},
+      {returnOriginal:false}
+    );
+    return room.value;
+  } catch(e) {
+    throw new Error(`An error occurred while increasing room user count: ${e}`);
+  }
+}
+
+const startNewGameRoomChanges = async (roomId, question) => {
+  try {
+    const room = await Room.collection.findOneAndUpdate(
+      {'roomId': roomId},
+      {
+        $inc: {'round': 1},
+        $set: {'voteCount': 0, 'submittedCount': 0, 'question': question},
+      },
+      {returnOriginal:false}
+    );
+    return room.value;
+  } catch(e) {
+    throw new Error(`An error occurred while increasing room user count: ${e}`);
+  }
+}
+
+const allRoomsList = async (roomId) => {
+  try {
+    const rooms = await Room.collection.find({'roomId': roomId});
+    return rooms;
+  } catch(e) {
+    throw new Error(`An error occurred while getting room list: ${e}`);
+  }
+}
+
 
 const play = async (user, gif, round, question, roomId) => {
   const play = {
@@ -63,19 +166,24 @@ const empty = async () => {
   try {
     await Play.collection.deleteMany({})
   } catch(e) {
-    throw new Error(`An error occurred while emptying play log: ${e}`);
+    throw new Error(`An error occurred while emptying play collection: ${e}`);
   }
 
   try {
     await UserLog.collection.deleteMany({})
   } catch(e) {
-    throw new Error(`An error occurred while emptying user log: ${e}`);
+    throw new Error(`An error occurred while emptying user collection: ${e}`);
+  }
+
+  try {
+    await Room.collection.deleteMany({})
+  } catch(e) {
+    throw new Error(`An error occurred while emptying room collection: ${e}`);
   }
 }
 
 const generateQuestion = () => {
-  const filteredPickOne = questionData.blackCards
-  .filter(quest => {
+  const filteredPickOne = questionData.blackCards.filter(quest => {
     if(quest.pick === 1){
       return quest;
     }
@@ -84,6 +192,7 @@ const generateQuestion = () => {
 
   return question.text;
 }
+
 const generateRoomId = () => {
   const alp = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const code = [];
@@ -98,8 +207,16 @@ module.exports = {
   play,
   empty,
   generateQuestion,
+  loggedUser,
   loggedUsers,
   playVote,
   loggedPlays,
-  generateRoomId
+  generateRoomId,
+  addRoom,
+  removeRoom,
+  allRoomsList,
+  incRoomUserCount,
+  startNewGameRoomChanges,
+  incRoomSubmittedCount,
+  incRoomVoteCount
 }
