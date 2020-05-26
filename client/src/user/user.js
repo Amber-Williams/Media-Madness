@@ -36,7 +36,7 @@ export default class User extends Component {
   searchGif (event){
     event.preventDefault();
     let searched = document.getElementById('searched').value;
-    fetch(`http://api.giphy.com/v1/gifs/search?api_key=rXTPJIC2ki2w3TA8aKiev8EkK8U1G3KT&q=${searched}`)
+    fetch(`https://api.giphy.com/v1/gifs/search?api_key=${process.env.REACT_APP_GIPHY_API}&q=${searched}`)
     .then(response => response.json())
     .then(data => this.setState ({
        searchedGif: data
