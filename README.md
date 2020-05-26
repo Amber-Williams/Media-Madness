@@ -24,13 +24,13 @@ Now your back end is set up!
 
 port number can be changed in the package.json "start"
 
-Now you will see a blank page at `http://localhost:[port]`, to see the user page go to `http://localhost:3001/user` and to see the central screen page go to `http://localhost:3001/central`
+Now you will see a blank page at `http://localhost:[port]`, to see the user page go to `http://localhost:3000/user` and to see the central screen page go to `http://localhost:3000/central`
 
 3) (Optional) If you wish to run the front end locally without docker simply run `yarn start`
 
 #### Deployment steps: 
 
-When uploading to production REMOVE PORT=3001 from client/package.json
+When uploading to production REMOVE PORT=3000 from client/package.json
 &&
 Change App.js commented out line
 

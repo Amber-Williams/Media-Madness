@@ -1,6 +1,8 @@
 #design folder
 /design
 
+# React Build folder
+client/build/
 
 # DS Store
 *.DS_Store

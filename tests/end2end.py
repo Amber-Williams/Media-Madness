@@ -19,7 +19,7 @@ def main():
 
         print("Drivers created")
         # Pulls up central screen and gets room code
-        url_central = "http://localhost:3001/central"
+        url_central = "http://localhost:3000/central"
         driver0.get(url_central)
         room_code = WebDriverWait(driver0, 5).until(
             EC.element_to_be_clickable((By.ID, "roomCodeId"))
@@ -65,7 +65,7 @@ def main():
         print('Drivers closed')
 
 def log_in_user(driver, room_code_id, num):
-    url_user = "http://localhost:3001/user"
+    url_user = "http://localhost:3000/user"
     driver.get(url_user)
 
     room_code_text_box = WebDriverWait(driver, 5).until(
